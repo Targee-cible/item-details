@@ -58,8 +58,8 @@ npm run seed
 ```
 ### API Requests
 
-retrieves item details for specific itemId
-GET Request `/api/items/:itemId`
+retrieves item details for specific itemId <br />
+GET Request `/api/items/:itemId` <br />
 Example Response:
 ```sh
 [ { type: 'Men - Shirts',
@@ -92,8 +92,8 @@ Example Response:
     __v: 0 } ]
 ```
 
-retrieves item details for specific itemId
-GET Request `/api/questions/:itemId`
+retrieves item details for specific itemId <br />
+GET Request `/api/questions/:itemId` <br />
 Example Response:
 ```sh
 [ { _id: 5d781fa1ad972754f0378092,
@@ -122,8 +122,8 @@ Example Response:
     __v: 0 } ]
 ```
 
-retrieves item details for specific itemId
-GET Request `/api/sizing/:itemId`
+retrieves item details for specific itemId <br />
+GET Request `/api/sizing/:itemId` <br />
 Example Response:
 ```sh
 [ { type: 'Men - Shirts',
@@ -176,13 +176,13 @@ Example Response:
     sleeve: '37.5-38',
     __v: 0 } ]
 ```
-creates a new item details
-POST Request `/api/create/`
+creates a new item details <br />
+POST Request `/api/create/` <br />
 
-updates an item detail based on item id
-PUT Request `/api/update/:itemId`
+updates an item detail based on item id <br />
+PUT Request `/api/update/:itemId` <br />
 
-deletes an item based on itemId
-DELETE Request `/api/delete/:itemId`
+deletes an item based on itemId <br />
+DELETE Request `/api/delete/:itemId` <br />
 
 
