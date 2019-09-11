@@ -61,7 +61,7 @@ npm run seed
 retrieves item details for specific itemId
 GET Request `/api/items/:itemId`
 Example Response:
-'''
+```sh
 [ { type: 'Men - Shirts',
     _id: 5d781fa1ad972754f0377fdb,
     itemId: 12,
@@ -90,11 +90,12 @@ Example Response:
     estimatedShipDimensions: 'Omnis magnam aut omnis deleniti ut pariatur quidem.',
     estimatedShipWeight: 'Functionality Persistent Optimization',
     __v: 0 } ]
+```
 
 retrieves item details for specific itemId
 GET Request `/api/questions/:itemId`
 Example Response:
-'''
+```sh
 [ { _id: 5d781fa1ad972754f0378092,
     itemId: 12,
     question: 'Voluptas aut magni.',
@@ -119,12 +120,12 @@ Example Response:
     unhelpfulCount: null,
     teamMember: null,
     __v: 0 } ]
-'''
+```
 
 retrieves item details for specific itemId
 GET Request `/api/sizing/:itemId`
 Example Response:
-'''
+```sh
 [ { type: 'Men - Shirts',
     _id: 5d781fa2ad972754f03780fc,
     size: 'XS',
@@ -174,7 +175,7 @@ Example Response:
     chest: '54-56',
     sleeve: '37.5-38',
     __v: 0 } ]
-'''
+```
 creates a new item details
 POST Request `/api/create/`
 
