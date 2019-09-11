@@ -67,6 +67,18 @@ app.get('/api/sizing/:itemId', (req, res) => {
   });
 });
 
+app.post('api/post', (req, res) => {
+  // should create a new item
+});
+
+app.put('api/update/:itemId', (req, res) => {
+  // should update an item
+});
+
+app.delete('api/delete/:itemId', (req, res) => {
+  // should delete an item
+});
+
 app.listen(port, () => {
   console.log(`Item details service listening on port ${port}!`);
 });
