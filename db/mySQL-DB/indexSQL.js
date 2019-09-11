@@ -38,7 +38,8 @@ connection.connect((err) => {
                     recycledPolyester TINYINT,
                     fastShipping TINYINT,
                     estimatedShipDimensions varchar(255),
-                    estimatedShipWeight varchar(255)
+                    estimatedShipWeight varchar(255),
+                    type varchar(255)
                 )`;
 
   connection.query(details, (err, result) => {
@@ -79,3 +80,5 @@ connection.connect((err) => {
     console.log('sizing table created');
   });
 });
+
+module.exports = connection;
