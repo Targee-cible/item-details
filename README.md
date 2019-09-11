@@ -176,8 +176,8 @@ Example Response:
     sleeve: '37.5-38',
     __v: 0 } ]
 ```
-creates a new item details <br />
-POST Request `/api/create/` <br />
+creates a new question for a specific item id <br />
+POST Request `/api/createQ/:itemId` <br />
 
 updates an item detail based on item id <br />
 PUT Request `/api/update/:itemId` <br />
