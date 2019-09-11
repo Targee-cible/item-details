@@ -23,7 +23,7 @@ app.get('/api/items/:itemId', (req, res) => {
       console.log('Error finding specific item.', err);
       res.sendStatus(404);
     } else {
-      // console.log('Results finding item', results);
+      console.log('Results finding item', results);
       res.send(results);
     }
   });
@@ -38,7 +38,7 @@ app.get('/api/questions/:itemId', (req, res) => {
       console.log('No questions at this item id.', err);
       res.sendStatus(404);
     } else {
-      // console.log('Here are the questions at this item id.', results);
+      console.log('Here are the questions at this item id.', results);
       res.send(results);
     }
   });
@@ -59,12 +59,24 @@ app.get('/api/sizing/:itemId', (req, res) => {
           console.log('Cannot find sizing for item type.', err);
           res.sendStatus(404);
         } else {
-          // console.log(`Here are the sizing details for item type ${itemType}`, results2);
+          console.log(`Here are the sizing details for item type ${itemType}`, results2);
           res.send(results2);
         }
       });
     }
   });
+});
+
+app.post('api/post', (req, res) => {
+  // should create a new item
+});
+
+app.put('api/update/:itemId', (req, res) => {
+  // should update an item
+});
+
+app.delete('api/delete/:itemId', (req, res) => {
+  // should delete an item
 });
 
 app.listen(port, () => {

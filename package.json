@@ -9,10 +9,10 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "seed": "node db/seed.js",
-    "stop": "node db/stop.js",
     "react-dev": "webpack -d --watch",
     "mocha": "mocha spec/server/server-tests.js --exit",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "seed:test": "node db/db-spec/seed-test.js"
   },
   "dependencies": {
     "chai": "^4.2.0",

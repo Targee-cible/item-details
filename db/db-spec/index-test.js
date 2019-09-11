@@ -58,12 +58,33 @@ const itemDetailsSchema = new mongoose.Schema({
 
 const ItemDetails = mongoose.model('ItemDetails', itemDetailsSchema);
 
+
 mongoose.connect('mongodb://localhost/on-target', { useNewUrlParser: true });
 
 db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', () => {
-  console.log('Database/server are connected!');
+  console.log('Database and server are connected!');
+  Questions.find({}, (err, res) => {
+    if (err) {
+      console.log('Error finding data in questions database', err)
+    } else {
+      ItemDetails.find({itemId:99}, (err, res) => {
+        if (err) {
+          console.log('Error finding data in item details database', err)
+        } else {
+          Sizing.find({size: 'XXXL'}, (err, res) => {
+            if (err) {
+              console.log('Error finding data in sizing database', err)
+            } else {
+              console.log('seeding script finished!')
+              db.close();
+            }
+          });
+        }
+      })
+    }
+  });
 });
 
 module.exports.Sizing = Sizing;

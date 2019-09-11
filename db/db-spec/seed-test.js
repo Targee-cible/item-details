@@ -1,5 +1,5 @@
 const faker = require('faker');
-const { ItemDetails, Questions, Sizing } = require('./index.js');
+const { ItemDetails, Questions, Sizing } = require('./index-test.js');
 
 //Below is for the Sizing collection. This clears the existing seeded database so it starts with a clean slate.
 Sizing.remove({}, (err) => {
@@ -109,7 +109,7 @@ Questions.remove({}, (err) => {
 // match one of the item numbers, so I'll do that below.
 const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
 
-// Some questions won't yet have answers, and I will need to account for that.
+// Some questions wont yet have answers, and I will need to account for that.
 // In cases they don't, I'll factor that in to the other fields that depend on an
 // answer, and push null to those fields.
 
@@ -131,7 +131,6 @@ const questionsToSeed = [];
 
 for (let index = 1; index <= 200; index += 1) {
   const getAnswers = checkIfQuestionHasAnswer();
-
   questionsToSeed.push(new Questions({
     itemId: getRandomItemId(),
     question: faker.lorem.sentence(),
