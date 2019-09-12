@@ -15,10 +15,10 @@ CREATE TABLE questions (
   itemId int,
   question varchar(255),
   asker varchar(255),
-  dateAsked date,
+  dateAsked varchar(255),
   answer varchar(255) NULL,
   nameOfResponder varchar(255) NULL,
-  dateAnswered date NULL,
+  dateAnswered varchar(255) NULL,
   helpfulCount int NULL,
   unHelpfulCount int NULL,
   targetTeamMember TINYINT NULL
