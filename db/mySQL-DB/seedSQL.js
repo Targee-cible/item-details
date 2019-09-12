@@ -4,30 +4,20 @@ const db = require('./indexSQL.js');
 const sizeJSON = require('../JSONdata/sizingData.js');
 
 // INSERTING DATA FOR SIZING TABLE
-console.log(sizeJSON);
-// const sizingArrayToSeed = [
-//   { size: 'XS', neck: '13-13.5', chest: '30-32', sleeve: '31.5-32' },
-//   { size: 'S', neck: '14-14.5', chest: '34-36', sleeve: '32.5-33' },
-//   { size: 'M', neck: '15-15.5', chest: '38-40', sleeve: '33.5-34' },
-//   { size: 'L', neck: '16-16.5', chest: '42-44', sleeve: '34.5-35' },
-//   { size: 'XL', neck: '17-17.5', chest: '46-48', sleeve: '35.5-36' },
-//   { size: 'XXL', neck: '18-18.5', chest: '50-52', sleeve: '36.5-37' },
-//   { size: 'XXXL', neck: '19-19.5', chest: '54-56', sleeve: '37.5-38' }
-// ];
-
-// const masterArr = [];
-// sizingArrayToSeed.forEach((seed) => {
-//   const infoArr = ['Men - Shirts', seed.size, seed.neck, seed.chest, seed.sleeve];
-//   masterArr.push(infoArr);
-// });
-
-// const sizingQuery = `INSERT INTO sizing
-//     (type, size, neck, chest, sleeve)
-//     VALUES ?`;
-//   db.query(sizingQuery, [masterArr], (err, res) => {
-//     if (err) throw err;
-//     if (res) console.log('seeded sizing data');
-//   });
+const masterArr = [];
+// const parsedSize = JSON.parse(sizeJSON);
+sizeJSON.forEach((seed) => {
+  const infoArr = [seed.type, seed.size, seed.neck, seed.chest, seed.sleeve];
+  masterArr.push(infoArr);
+});
+console.log(masterArr);
+const sizingQuery = `INSERT INTO sizing
+    (type, size, neck, chest, sleeve)
+    VALUES ?`;
+db.query(sizingQuery, [masterArr], (err, res) => {
+  if (err) throw err;
+  if (res) console.log('seeded sizing data rows:' + res.affectedRows);
+});
 
 // // INSERTING DATA FOR QUESTIONS
 // const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
