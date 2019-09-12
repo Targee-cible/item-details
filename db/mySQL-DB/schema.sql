@@ -16,12 +16,12 @@ CREATE TABLE questions (
   question varchar(255),
   asker varchar(255),
   dateAsked date,
-  answer varchar(255),
-  nameOfResponder varchar(255),
-  dateAnswered date,
-  helpfulCount int,
-  unHelpfulCount int,
-  targetTeamMember TINYINT
+  answer varchar(255) NULL,
+  nameOfResponder varchar(255) NULL,
+  dateAnswered date NULL,
+  helpfulCount int NULL,
+  unHelpfulCount int NULL,
+  targetTeamMember TINYINT NULL
 );
 
 CREATE TABLE detail (
