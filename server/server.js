@@ -1,4 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const { ItemDetails, Questions, Sizing } = require('../db/index.js');
+
 
 const app = express();
 const port = 3001;
@@ -11,7 +14,8 @@ let allowCrossDomain = function(req, res, next) {
 }
 
 app.use(express.static('client/dist/'));
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(allowCrossDomain);
 
 // Get request to get all item details at particular item id.
@@ -23,7 +27,7 @@ app.get('/api/items/:itemId', (req, res) => {
       console.log('Error finding specific item.', err);
       res.sendStatus(404);
     } else {
-      console.log('Results finding item', results);
+      // console.log('Results finding item', results);
       res.send(results);
     }
   });
@@ -59,7 +63,7 @@ app.get('/api/sizing/:itemId', (req, res) => {
           console.log('Cannot find sizing for item type.', err);
           res.sendStatus(404);
         } else {
-          console.log(`Here are the sizing details for item type ${itemType}`, results2);
+          // console.log(`Here are the sizing details for item type ${itemType}`, results2);
           res.send(results2);
         }
       });
@@ -67,16 +71,64 @@ app.get('/api/sizing/:itemId', (req, res) => {
   });
 });
 
-app.post('api/post', (req, res) => {
-  // should create a new item
+app.post('/api/post', (req, res) => {
+  const post = {
+    itemId: req.body.itemId,
+    question: req.body.question,
+    asker: req.body.asker,
+    dateAsked: new Date(),
+    answer: null,
+    nameOfResponder: null,
+    dateAnswered: null,
+    helpfulCount: null,
+    unhelpfulCount: null,
+    teamMember: null,
+  };
+  db.Questions.create([post])
+    .then(() => {
+      var query = db.Questions.find({ itemId: 12 });
+      query.exec()
+        .then((blogs) => {
+          res.send(JSON.stringify(blogs));
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    })
+
 });
 
-app.put('api/update/:itemId', (req, res) => {
-  // should update an item
+app.put('/api/update', (req, res) => {
+  const updateObj = {};
+  const key = req.body.update.key;
+  let update = req.body.update.value;
+
+  updateObj[key] = update;
+  console.log(updateObj);
+  const id = req.body.itemId;
+  db.ItemDetails.findOneAndUpdate({ itemId: id }, { $set: updateObj })
+    .then((result) => {
+      const query = db.ItemDetails.find({ itemId: id });
+      query.exec()
+        .then((item) => {
+          res.send(JSON.stringify(item));
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
 });
 
-app.delete('api/delete/:itemId', (req, res) => {
-  // should delete an item
+app.delete('/api/delete/:itemId', (req, res) => {
+  const id = req.params.itemId;
+  db.ItemDetails.deleteOne({ itemId: id })
+    .then(res.sendStatus(200))
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
 });
 
 app.listen(port, () => {

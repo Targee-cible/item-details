@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const faker = require('faker');
-const db = require('./index.SQL.js');
+const db = require('./indexSQL.js');
 
 // INSERTING DATA FOR SIZING TABLE
 const sizingArrayToSeed = [
@@ -13,24 +13,27 @@ const sizingArrayToSeed = [
   { size: 'XXXL', neck: '19-19.5', chest: '54-56', sleeve: '37.5-38' }
 ];
 
+const masterArr = [];
 sizingArrayToSeed.forEach((seed) => {
-  const sizingQuery = `INSERT INTO sizing (type, size, neck, chest, sleeve) VALUES ('Men - Shirts', ${seed.size}, ${seed.neck}, ${seed.chest}, ${seed.sleeve})`;
-  db.query(sizingQuery, (err, res) => {
+  const infoArr = ['Men - Shirts', seed.size, seed.neck, seed.chest, seed.sleeve];
+  masterArr.push(infoArr);
+});
+
+const sizingQuery = `INSERT INTO sizing
+    (type, size, neck, chest, sleeve)
+    VALUES ?`;
+  db.query(sizingQuery, [masterArr], (err, res) => {
     if (err) throw err;
     if (res) console.log('seeded sizing data');
   });
-});
 
 // INSERTING DATA FOR QUESTIONS
 const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
 const checkIfQuestionHasAnswer = function () {
   const hasAnswer = faker.random.number({ min: 0, max: 1 });
   const answerArray = [];
-
   if (hasAnswer) {
-    // for answer info
     answerArray.push(faker.lorem.sentence(), faker.name.firstName(), faker.date.past());
-    // for helpful votes info
     answerArray.push(faker.random.number({ min: 0, max: 5 }), faker.random.number({ min: 0, max: 5 }), faker.random.boolean());
   } else {
     answerArray.push(null, null, null, null, null, null);
@@ -39,9 +42,11 @@ const checkIfQuestionHasAnswer = function () {
 };
 
 // generate 200 (will have to adjust this num later) random questions for random itemIds
-for (let index = 1; index <= 200; index += 1) {
+const allQs = [];
+let questionsAdded = 1;
+for (let index = 1; index <= 2; index += 1) {
   const getAnswers = checkIfQuestionHasAnswer();
-  const answerObj = {
+  const qObj = {
     itemId: getRandomItemId(),
     question: faker.lorem.sentence(),
     asker: faker.name.firstName(),
@@ -53,16 +58,17 @@ for (let index = 1; index <= 200; index += 1) {
     unhelpfulCount: getAnswers[4],
     teamMember: getAnswers[5],
   };
+  const questArr = Object.keys(qObj).map((key) => {
+    return qObj[key];
+  });
+  allQs.push(questArr);
+}
 
-  // const questionQuery = `INSERT INTO questions (type, size, neck, chest, sleeve) VALUES ('Men - Shirts', ${seed.size}, ${seed.neck}, ${seed.chest}, ${seed.sleeve})`;
-
-  // db.query(sizingQuery, (err, res) => {
-  //   if (err) throw err;
-  //   if (res) console.log('seeded sizing data');
-  // });
-};
-
-
+const questionQuery = 'INSERT INTO questions (itemId, question, asker, dateAsked, answer, nameOfResponder, dateAnswered, helpfulCount, unhelpfulCount, targetTeamMember) VALUES ?';
+db.query(questionQuery, [allQs], (err, res) => {
+  if (err) throw err;
+  if (res) console.log('seeded questions data rows:' + res.affectedRows);
+});
 
 // INSERTING DATA FOR ITEM-DETAIL
 // generate random bullet ponts for item-detail
@@ -83,7 +89,8 @@ const randomBulletPoints = function () {
 };
 
 // loop to add into item detail table, will have to adjust the 100 num
-for (let j = 1; j <= 100; j += 1) {
+let allDetail = [];
+for (let j = 1; j <= 10; j += 1) {
   const pointsToList = randomBulletPoints();
   const itemObj = {
     itemId: j,
@@ -113,15 +120,21 @@ for (let j = 1; j <= 100; j += 1) {
     estimatedShipWeight: faker.random.words(),
     type: 'Men - Shirts',
   };
-  // add into db table for each item
-  const detailQuery = `INSERT INTO detail
+
+  const detailArr = Object.keys(itemObj).map((key) => {
+    return itemObj[key];
+  });
+  allDetail.push(detailArr);
+}
+
+const detailQuery = `INSERT INTO detail
       (itemId, fitAndSTylePointOne, fitAndSTylePointTwo,
       fitAndSTylePointThree, fitAndSTylePointFour, fitAndSTylePointFive, fitAndSTyleBlurb, sizing, material, fit, length, features, neckline, itemStyle, garmentCuffCutType, garmentSleeveStyle, careAndCleaning, TCIN, UPC, DPCI, origin, recycledPolyester, fastShipping, estimatedShipDimensions, estimatedShipWeight, type)
-      values(${itemObj.itemId}, ${itemObj.point1}, ${itemObj.point2}, ${itemObj.point3}, ${itemObj.point4}, ${itemObj.point5}, ${itemObj.blurb}, ${itemObj.sizing}, ${itemObj.material}, ${itemObj.fit}, ${itemObj.length}, ${itemObj.features}, ${itemObj.neckline}, ${itemObj.itemStyle}, ${itemObj.garmentCuffCutType}, ${itemObj.garmentSleeveStyle}, ${itemObj.careAndCleaning}, ${itemObj.TCIN}, ${itemObj.UPC}, ${itemObj.DPCI}, ${itemObj.origin}, ${itemObj.recycledPolyester}, ${itemObj.fastShipping}, ${itemObj.estimatedShipDimensions}, ${itemObj.estimatedShipWeight}, ${itemObj.type})`;
+      values ?`;
 
-  db.query(detailQuery, (err, res) => {
-    if (err) throw err;
-    if (res) console.log('seeded detail data');
-  });
+db.query(detailQuery, [allDetail], (err, res) => {
+  if (err) throw err;
+  if (res) console.log('seeded detail data rows:' + res.affectedRows);
+});
 
-}
+db.end();

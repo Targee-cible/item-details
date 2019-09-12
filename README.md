@@ -177,10 +177,10 @@ Example Response:
     __v: 0 } ]
 ```
 creates a new question for a specific item id <br />
-POST Request `/api/createQ/:itemId` <br />
+POST Request `/api/createQ` <br />
 
 updates an item detail based on item id <br />
-PUT Request `/api/update/:itemId` <br />
+PUT Request `/api/update` <br />
 
 deletes an item based on itemId <br />
 DELETE Request `/api/delete/:itemId` <br />
