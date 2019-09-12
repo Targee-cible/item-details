@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "nodemon server/server.js",
-    "seed": "node db/seed.js",
+    "seed": "node db/mySQL-DB/seedSQL.js",
     "react-dev": "webpack -d --watch",
     "mocha": "mocha spec/server/server-tests.js --exit",
     "test": "jest --coverage",

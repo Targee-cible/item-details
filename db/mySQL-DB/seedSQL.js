@@ -14,8 +14,10 @@ const sizingArrayToSeed = [
 ];
 
 sizingArrayToSeed.forEach((seed) => {
-  const sizingQuery = `INSERT INTO sizing (type, size, neck, chest, sleeve) VALUES ('Men - Shirts', ${seed.size}, ${seed.neck}, ${seed.chest}, ${seed.sleeve})`;
-  db.query(sizingQuery, (err, res) => {
+  const infoArr = ['Men - Shirts', seed.size, seed.neck, seed.chest, seed.sleeve];
+  console.log(infoArr);
+  const sizingQuery = `INSERT INTO sizing (type, size, neck, chest, sleeve) VALUES (?)`;
+  db.query(sizingQuery, [infoArr], (err, res) => {
     if (err) throw err;
     if (res) console.log('seeded sizing data');
   });
