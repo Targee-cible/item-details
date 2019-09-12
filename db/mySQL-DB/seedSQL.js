@@ -5,20 +5,20 @@ const sizeJSON = require('../JSONdata/sizingData.js');
 const detailJSON = require('../JSONdata/detailData.js');
 const questionJSON = require('../JSONdata/questionsData.js');
 
-// // INSERTING DATA FOR SIZING TABLE
-// const masterArr = [];
-// sizeJSON.forEach((seed) => {
-//   const infoArr = [seed.type, seed.size, seed.neck, seed.chest, seed.sleeve];
-//   masterArr.push(infoArr);
-// });
-// console.log(masterArr);
-// const sizingQuery = `INSERT INTO sizing
-//     (type, size, neck, chest, sleeve)
-//     VALUES ?`;
-// db.query(sizingQuery, [masterArr], (err, res) => {
-//   if (err) throw err;
-//   if (res) console.log('seeded sizing data rows:' + res.affectedRows);
-// });
+// INSERTING DATA FOR SIZING TABLE
+const masterArr = [];
+sizeJSON.forEach((seed) => {
+  const infoArr = [seed.type, seed.size, seed.neck, seed.chest, seed.sleeve];
+  masterArr.push(infoArr);
+});
+
+const sizingQuery = `INSERT INTO sizing
+    (type, size, neck, chest, sleeve)
+    VALUES ?`;
+db.query(sizingQuery, [masterArr], (err, res) => {
+  if (err) throw err;
+  if (res) console.log('seeded sizing data rows:' + res.affectedRows);
+});
 
 // INSERTING DATA FOR QUESTIONS
 const allQs = [];
@@ -33,71 +33,20 @@ db.query(questionQuery, [allQs], (err, res) => {
   if (res) console.log('seeded questions data rows:' + res.affectedRows);
 });
 
-// // INSERTING DATA FOR ITEM-DETAIL
-// // generate random bullet ponts for item-detail
-// const randomBulletPoints = function () {
-//   const options = faker.random.number({ min: 0, max: 4 });
-//   const pointsToList = [null, null, null, null, null];
+// INSERTING DATA FOR ITEM-DETAIL
+const allDetail = [];
+detailJSON.forEach((itemObj) => {
+  const detailArr = Object.keys(itemObj).map((key) => itemObj[key]);
+  allDetail.push(detailArr);
+});
 
-//   if (options === 0) {
-//     return pointsToList;
-//   }
-
-//   let i = 0;
-//   while (i <= options) {
-//     pointsToList[i] = faker.lorem.sentence();
-//     i += 1;
-//   }
-//   return pointsToList;
-// };
-
-// // loop to add into item detail table, will have to adjust the 100 num
-// let allDetail = [];
-// for (let j = 1; j <= 10; j += 1) {
-//   const pointsToList = randomBulletPoints();
-//   const itemObj = {
-//     itemId: j,
-//     point1: pointsToList[0],
-//     point2: pointsToList[1],
-//     point3: pointsToList[2],
-//     point4: pointsToList[3],
-//     point5: pointsToList[4],
-//     blurb: faker.lorem.paragraph(),
-//     sizing: faker.random.word(),
-//     material: faker.commerce.productMaterial(),
-//     fit: faker.commerce.productAdjective(),
-//     length: faker.random.words(),
-//     features: faker.commerce.productAdjective(),
-//     neckline: faker.commerce.productAdjective(),
-//     itemStyle: faker.commerce.productAdjective(),
-//     garmentCuffCutType: faker.random.words(),
-//     garmentSleeveStyle: faker.random.words(),
-//     careAndCleaning: faker.random.words(),
-//     TCIN: faker.random.number(),
-//     UPC: faker.random.number(),
-//     DPCI: faker.random.number(),
-//     origin: faker.random.word(),
-//     recycledPolyester: faker.random.boolean(),
-//     fastShipping: faker.random.boolean(),
-//     estimatedShipDimensions: faker.lorem.sentence(),
-//     estimatedShipWeight: faker.random.words(),
-//     type: 'Men - Shirts',
-//   };
-
-//   const detailArr = Object.keys(itemObj).map((key) => {
-//     return itemObj[key];
-//   });
-//   allDetail.push(detailArr);
-// }
-
-// const detailQuery = `INSERT INTO detail
-//       (itemId, fitAndSTylePointOne, fitAndSTylePointTwo,
-//       fitAndSTylePointThree, fitAndSTylePointFour, fitAndSTylePointFive, fitAndSTyleBlurb, sizing, material, fit, length, features, neckline, itemStyle, garmentCuffCutType, garmentSleeveStyle, careAndCleaning, TCIN, UPC, DPCI, origin, recycledPolyester, fastShipping, estimatedShipDimensions, estimatedShipWeight, type)
-//       values ?`;
-
-// db.query(detailQuery, [allDetail], (err, res) => {
-//   if (err) throw err;
-//   if (res) console.log('seeded detail data rows:' + res.affectedRows);
-// });
+const detailQuery = `INSERT INTO detail
+      (itemId, fitAndSTylePointOne, fitAndSTylePointTwo,
+      fitAndSTylePointThree, fitAndSTylePointFour, fitAndSTylePointFive, fitAndSTyleBlurb, sizing, material, fit, length, features, neckline, itemStyle, garmentCuffCutType, garmentSleeveStyle, careAndCleaning, TCIN, UPC, DPCI, origin, recycledPolyester, fastShipping, estimatedShipDimensions, estimatedShipWeight, type)
+      values ?`;
+db.query(detailQuery, [allDetail], (err, res) => {
+  if (err) throw err;
+  if (res) console.log('seeded detail data rows:' + res.affectedRows);
+});
 
 db.end();
