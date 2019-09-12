@@ -32,7 +32,7 @@ CREATE TABLE detail (
   fitAndSTylePointThree varchar(255),
   fitAndSTylePointFour varchar(255),
   fitAndSTylePointFive varchar(255),
-  fitAndSTyleBlurb varchar(255),
+  fitAndSTyleBlurb varchar(1000),
   sizing varchar(255),
   material varchar(255),
   fit varchar(255),
