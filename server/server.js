@@ -1,4 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const { ItemDetails, Questions, Sizing } = require('../db/index.js');
+
 
 const app = express();
 const port = 3001;
@@ -11,7 +14,8 @@ let allowCrossDomain = function(req, res, next) {
 }
 
 app.use(express.static('client/dist/'));
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(allowCrossDomain);
 
 // Get request to get all item details at particular item id.
@@ -23,7 +27,7 @@ app.get('/api/items/:itemId', (req, res) => {
       console.log('Error finding specific item.', err);
       res.sendStatus(404);
     } else {
-      console.log('Results finding item', results);
+      // console.log('Results finding item', results);
       res.send(results);
     }
   });
@@ -59,7 +63,7 @@ app.get('/api/sizing/:itemId', (req, res) => {
           console.log('Cannot find sizing for item type.', err);
           res.sendStatus(404);
         } else {
-          console.log(`Here are the sizing details for item type ${itemType}`, results2);
+          // console.log(`Here are the sizing details for item type ${itemType}`, results2);
           res.send(results2);
         }
       });
@@ -67,8 +71,42 @@ app.get('/api/sizing/:itemId', (req, res) => {
   });
 });
 
-app.post('api/post', (req, res) => {
+app.post('/api/post', (req, res) => {
   // should create a new item
+  console.log(req.body);
+  // db.Questions.create(req.body, (err, result) => {
+  //   if (err) {
+  //     res.send(400);
+  //   }
+  //   res.send(200);
+  // });
+  const post = {
+    itemId: req.body.itemId,
+    question: req.body.question,
+    asker: req.body.asker,
+    dateAsked: new Date(),
+    answer: null,
+    nameOfResponder: null,
+    dateAnswered: null,
+    helpfulCount: null,
+    unhelpfulCount: null,
+    teamMember: null,
+  };
+  console.log(post);
+  db.Questions.create([post])
+    .then(() => {
+      var query = db.Questions.find({ itemId: 12 });
+      query.exec()
+        .then((blogs) => {
+          res.send(JSON.stringify(blogs));
+        });
+      // db.Questions.find()
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    })
+
 });
 
 app.put('api/update/:itemId', (req, res) => {
