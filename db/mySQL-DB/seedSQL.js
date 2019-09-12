@@ -2,65 +2,36 @@ const mysql = require('mysql');
 const faker = require('faker');
 const db = require('./indexSQL.js');
 const sizeJSON = require('../JSONdata/sizingData.js');
+const detailJSON = require('../JSONdata/detailData.js');
+const questionJSON = require('../JSONdata/questionsData.js');
 
-// INSERTING DATA FOR SIZING TABLE
-const masterArr = [];
-// const parsedSize = JSON.parse(sizeJSON);
-sizeJSON.forEach((seed) => {
-  const infoArr = [seed.type, seed.size, seed.neck, seed.chest, seed.sleeve];
-  masterArr.push(infoArr);
-});
-console.log(masterArr);
-const sizingQuery = `INSERT INTO sizing
-    (type, size, neck, chest, sleeve)
-    VALUES ?`;
-db.query(sizingQuery, [masterArr], (err, res) => {
-  if (err) throw err;
-  if (res) console.log('seeded sizing data rows:' + res.affectedRows);
-});
-
-// // INSERTING DATA FOR QUESTIONS
-// const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
-// const checkIfQuestionHasAnswer = function () {
-//   const hasAnswer = faker.random.number({ min: 0, max: 1 });
-//   const answerArray = [];
-//   if (hasAnswer) {
-//     answerArray.push(faker.lorem.sentence(), faker.name.firstName(), faker.date.past());
-//     answerArray.push(faker.random.number({ min: 0, max: 5 }), faker.random.number({ min: 0, max: 5 }), faker.random.boolean());
-//   } else {
-//     answerArray.push(null, null, null, null, null, null);
-//   }
-//   return answerArray;
-// };
-
-// // generate 200 (will have to adjust this num later) random questions for random itemIds
-// const allQs = [];
-// let questionsAdded = 1;
-// for (let index = 1; index <= 2; index += 1) {
-//   const getAnswers = checkIfQuestionHasAnswer();
-//   const qObj = {
-//     itemId: getRandomItemId(),
-//     question: faker.lorem.sentence(),
-//     asker: faker.name.firstName(),
-//     dateAsked: faker.date.past(),
-//     answer: getAnswers[0],
-//     nameOfResponder: getAnswers[1],
-//     dateAnswered: getAnswers[2],
-//     helpfulCount: getAnswers[3],
-//     unhelpfulCount: getAnswers[4],
-//     teamMember: getAnswers[5],
-//   };
-//   const questArr = Object.keys(qObj).map((key) => {
-//     return qObj[key];
-//   });
-//   allQs.push(questArr);
-// }
-
-// const questionQuery = 'INSERT INTO questions (itemId, question, asker, dateAsked, answer, nameOfResponder, dateAnswered, helpfulCount, unhelpfulCount, targetTeamMember) VALUES ?';
-// db.query(questionQuery, [allQs], (err, res) => {
-//   if (err) throw err;
-//   if (res) console.log('seeded questions data rows:' + res.affectedRows);
+// // INSERTING DATA FOR SIZING TABLE
+// const masterArr = [];
+// sizeJSON.forEach((seed) => {
+//   const infoArr = [seed.type, seed.size, seed.neck, seed.chest, seed.sleeve];
+//   masterArr.push(infoArr);
 // });
+// console.log(masterArr);
+// const sizingQuery = `INSERT INTO sizing
+//     (type, size, neck, chest, sleeve)
+//     VALUES ?`;
+// db.query(sizingQuery, [masterArr], (err, res) => {
+//   if (err) throw err;
+//   if (res) console.log('seeded sizing data rows:' + res.affectedRows);
+// });
+
+// INSERTING DATA FOR QUESTIONS
+const allQs = [];
+questionJSON.forEach(question => {
+  const questArr = Object.keys(question).map((key) => question[key]);
+  allQs.push(questArr);
+});
+
+const questionQuery = 'INSERT INTO questions (itemId, question, asker, dateAsked, answer, nameOfResponder, dateAnswered, helpfulCount, unhelpfulCount, targetTeamMember) VALUES ?';
+db.query(questionQuery, [allQs], (err, res) => {
+  if (err) throw err;
+  if (res) console.log('seeded questions data rows:' + res.affectedRows);
+});
 
 // // INSERTING DATA FOR ITEM-DETAIL
 // // generate random bullet ponts for item-detail

@@ -1,4 +1,4 @@
-[
+const questionJSON = [
 	{
 		"itemId": 90,
 		"question": "Animi optio eum ut magni aspernatur reprehenderit quisquam.",
@@ -23,4 +23,7 @@
 		"unhelpfulCount": 5,
 		"teamMember": false
 	}
-]
+];
+
+
+module.exports = questionJSON;

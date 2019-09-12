@@ -1,4 +1,4 @@
-[
+const detailJSON = [
 	{
 		"itemId": 1,
 		"point1": "Molestiae odit ullam amet laudantium cupiditate excepturi quo id et.",
@@ -279,4 +279,6 @@
 		"estimatedShipWeight": "platforms synthesizing",
 		"type": "Men - Shirts"
 	}
-]
+];
+
+module.exports = detailJSON;
