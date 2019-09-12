@@ -72,14 +72,6 @@ app.get('/api/sizing/:itemId', (req, res) => {
 });
 
 app.post('/api/post', (req, res) => {
-  // should create a new item
-  console.log(req.body);
-  // db.Questions.create(req.body, (err, result) => {
-  //   if (err) {
-  //     res.send(400);
-  //   }
-  //   res.send(200);
-  // });
   const post = {
     itemId: req.body.itemId,
     question: req.body.question,
@@ -92,7 +84,6 @@ app.post('/api/post', (req, res) => {
     unhelpfulCount: null,
     teamMember: null,
   };
-  console.log(post);
   db.Questions.create([post])
     .then(() => {
       var query = db.Questions.find({ itemId: 12 });
@@ -100,7 +91,6 @@ app.post('/api/post', (req, res) => {
         .then((blogs) => {
           res.send(JSON.stringify(blogs));
         });
-      // db.Questions.find()
     })
     .catch((err) => {
       console.log(err);
@@ -109,8 +99,26 @@ app.post('/api/post', (req, res) => {
 
 });
 
-app.put('api/update/:itemId', (req, res) => {
-  // should update an item
+app.put('/api/update', (req, res) => {
+  const updateObj = {};
+  const key = req.body.update.key;
+  let update = req.body.update.value;
+
+  updateObj[key] = update;
+  console.log(updateObj);
+  const id = req.body.itemId;
+  db.ItemDetails.findOneAndUpdate({ itemId: id }, { $set: updateObj })
+    .then((result) => {
+      const query = db.ItemDetails.find({ itemId: id });
+      query.exec()
+        .then((item) => {
+          res.send(JSON.stringify(item));
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
 });
 
 app.delete('api/delete/:itemId', (req, res) => {
