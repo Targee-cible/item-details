@@ -121,8 +121,15 @@ app.put('/api/update', (req, res) => {
     });
 });
 
-app.delete('api/delete/:itemId', (req, res) => {
-  // should delete an item
+app.delete('/api/delete/:itemId', (req, res) => {
+  const id = req.params.itemId;
+  console.log(id);
+  db.ItemDetails.deleteOne({ itemId: id })
+    .then(res.sendStatus(200))
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
 });
 
 app.listen(port, () => {
