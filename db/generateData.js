@@ -12,16 +12,16 @@ const generateSizingJSON = function() {
     { size: 'XXL', neck: '18-18.5', chest: '50-52', sleeve: '36.5-37' },
     { size: 'XXXL', neck: '19-19.5', chest: '54-56', sleeve: '37.5-38' }
   ];
-  const masterArr = [];
-  sizingArrayToSeed.forEach((seed) => {
-    const infoArr = ['Men - Shirts', seed.size, seed.neck, seed.chest, seed.sleeve];
-    masterArr.push(infoArr);
-  });
-  return masterArr;
+  // const masterArr = [];
+  // sizingArrayToSeed.forEach((seed) => {
+  //   const infoArr = ['Men - Shirts', seed.size, seed.neck, seed.chest, seed.sleeve];
+  //   masterArr.push(infoArr);
+  // });
+  return sizingArrayToSeed;
 };
 
 const sizingJSON = generateSizingJSON();
-fs.writeFileSync('./db/JSONdata/sizingData.json', JSON.stringify(sizingJSON, null, '\t'));
+fs.writeFileSync('./db/JSONdata/sizingData.js', JSON.stringify(sizingJSON, null, '\t'));
 
 
 // TO CREATE JSON FOR QUESTIONS
@@ -56,14 +56,14 @@ const generateQuestionJSON = function () {
       unhelpfulCount: getAnswers[4],
       teamMember: getAnswers[5],
     };
-    const questArr = Object.keys(qObj).map((key) => qObj[key]);
-    allQs.push(questArr);
+    // const questArr = Object.keys(qObj).map((key) => qObj[key]);
+    allQs.push(qObj);
   }
   return allQs;
 };
 
 const questionJSON = generateQuestionJSON();
-fs.writeFileSync('./db/JSONdata/questionsData.json', JSON.stringify(questionJSON, null, '\t'));
+fs.writeFileSync('./db/JSONdata/questionsData.js', JSON.stringify(questionJSON, null, '\t'));
 
 
 // TO CREATE JSON FOR ITEM DETAIL
@@ -117,11 +117,11 @@ const generateDetailJSON = function() {
       type: 'Men - Shirts',
     };
 
-    const detailArr = Object.keys(itemObj).map((key) => itemObj[key]);
-    allDetail.push(detailArr);
+    // const detailArr = Object.keys(itemObj).map((key) => itemObj[key]);
+    allDetail.push(itemObj);
   }
   return allDetail;
 };
 
 const detailJSON = generateDetailJSON();
-fs.writeFileSync('./db/JSONdata/detailData.json', JSON.stringify(detailJSON, null, '\t'));
+fs.writeFileSync('./db/JSONdata/detailData.js', JSON.stringify(detailJSON, null, '\t'));
