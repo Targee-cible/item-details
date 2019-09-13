@@ -37,7 +37,7 @@ const checkIfQuestionHasAnswer = function () {
 // generate 200 (will have to adjust this num later) random questions for random itemIds
 const generateQuestionJSON = function () {
   const allQs = [];
-  for (let index = 1; index < 3; index += 1) { // adjust the index based on how much data is needed
+  for (let index = 1; index < 50000; index += 1) { // adjust the index based on how much data is needed
     const getAnswers = checkIfQuestionHasAnswer();
     const qObj = {
       itemId: getRandomItemId(),
@@ -81,7 +81,7 @@ const generateDetailJSON = function() {
 
   // loop to add into item detail table, will have to adjust the 100 num
   let allDetail = [];
-  for (let j = 1; j <= 10; j += 1) {
+  for (let j = 1; j <= 50000; j += 1) { // adjust for amount of data wanted
     const pointsToList = randomBulletPoints();
     const itemObj = {
       itemId: j,

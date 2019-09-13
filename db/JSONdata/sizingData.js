@@ -1,4 +1,4 @@
-const sizeJSON = [
+[
 	{
 		"type": "Men - Shirts",
 		"size": "XS",
@@ -48,6 +48,4 @@ const sizeJSON = [
 		"chest": "54-56",
 		"sleeve": "37.5-38"
 	}
-];
-
-module.exports = sizeJSON;
+]
