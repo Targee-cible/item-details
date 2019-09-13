@@ -75,7 +75,8 @@ const randomBulletPoints = function () {
 
 const createDetailBatch = function() {
   let allDetail = [];
-  for (let j = 1; j <= 2; j += 1) { // adjust for amount of data wanted
+
+  for (let j = 1; j <= 10000; j += 1) { // adjust for amount of data wanted
     const pointsToList = randomBulletPoints();
     const itemObj = {
       itemId: j,
@@ -106,7 +107,6 @@ const createDetailBatch = function() {
       type: 'Men - Shirts',
     };
 
-    // const detailArr = Object.keys(itemObj).map((key) => itemObj[key]);
     allDetail.push(itemObj);
   }
   return allDetail;

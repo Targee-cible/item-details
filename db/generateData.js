@@ -62,10 +62,9 @@ fs.writeFileSync('./db/JSONdata/questionsData.js', JSON.stringify(questionJSON, 
 
 
 // TO CREATE JSON FOR ITEM DETAIL
-
   // loop to add into item detail table, will have to adjust the 100 num
   let allDetail = [];
-  for (let j = 1; j <= 10000; j += 1) { // adjust for amount of data wanted
+  for (let j = 1; j <= 100; j += 1) { // adjust for amount of data wanted
     const pointsToList = randomBulletPoints();
     const itemObj = {
       itemId: j,

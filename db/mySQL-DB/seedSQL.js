@@ -14,7 +14,7 @@ const genFunc = require('./generateFunc.js');
 // });
 
 // // INSERTING DATA FOR QUESTIONS
-// for (var i = 0; i <= 5; i++) {
+// for (var i = 0; i <= 500; i++) {
 //   var quesArr = genFunc.createQuestionBatch();
 //   const questionQuery = `INSERT INTO questions (itemId, question, 
 //     asker, dateAsked, answer, nameOfResponder, dateAnswered, helpfulCount, 
@@ -26,24 +26,32 @@ const genFunc = require('./generateFunc.js');
 // }
 
 // INSERTING DATA FOR ITEM-DETAIL
-for (var i = 0; i <= 10; i++) {
-  const allDetail = [];
-  const generatedDetail = genFunc.createDetailBatch();
-  generatedDetail.forEach((item) => {
-    const detailArr = Object.keys(item).map((key) => item[key]);
-    allDetail.push(detailArr)
-  })
-  const detailQuery = `INSERT INTO detail
-        (itemId, fitAndSTylePointOne, fitAndSTylePointTwo,
-        fitAndSTylePointThree, fitAndSTylePointFour, fitAndSTylePointFive, 
-        fitAndSTyleBlurb, sizing, material, fit, length, features, neckline, 
-        itemStyle, garmentCuffCutType, garmentSleeveStyle, careAndCleaning, 
-        TCIN, UPC, DPCI, origin, recycledPolyester, fastShipping, estimatedShipDimensions, 
-        estimatedShipWeight, type) values ?`;
-  db.query(detailQuery, [allDetail], (err, res) => {
-    if (err) throw err;
-    if (res) console.log('seeded detail data rows:' + res.affectedRows);
-  });
+var insertBatchDetail = function() {
+  for (var i = 0; i < 3; i++) {
+    const allDetail = [];
+    const generatedDetail = genFunc.createDetailBatch();
+    generatedDetail.forEach((item) => {
+      const detailArr = Object.keys(item).map((key) => item[key]);
+      allDetail.push(detailArr)
+    })
+    const detailQuery = `INSERT INTO detail
+          (itemId, fitAndSTylePointOne, fitAndSTylePointTwo,
+          fitAndSTylePointThree, fitAndSTylePointFour, fitAndSTylePointFive, 
+          fitAndSTyleBlurb, sizing, material, fit, length, features, neckline, 
+          itemStyle, garmentCuffCutType, garmentSleeveStyle, careAndCleaning, 
+          TCIN, UPC, DPCI, origin, recycledPolyester, fastShipping, estimatedShipDimensions, 
+          estimatedShipWeight, type) values ?`;
+    db.query(detailQuery, [allDetail], (err, res) => {
+      if (err) throw err;
+      if (res) console.log('seeded detail data rows:' + res.affectedRows);
+    });
+  }
+};
+
+for (var i = 0; i < 2; i++) {
+  insertBatchDetail();
 }
+
+
 
 db.end();
