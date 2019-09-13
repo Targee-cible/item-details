@@ -56,9 +56,65 @@ const createQuestionBatch = function() {
   return allQs;
 };
 
+const randomBulletPoints = function () {
+  const options = faker.random.number({ min: 0, max: 4 });
+  const pointsToList = [null, null, null, null, null];
+  if (options === 0) {	
+    return pointsToList;	
+  }	
+  let i = 0;	
+  while (i <= options) {	
+    pointsToList[i] = faker.lorem.sentence();	
+    i += 1;	
+  }	
+  return pointsToList;	
+};
+  
+
+
+const createDetailBatch = function() {
+  let allDetail = [];
+  for (let j = 1; j <= 2; j += 1) { // adjust for amount of data wanted
+    const pointsToList = randomBulletPoints();
+    const itemObj = {
+      itemId: j,
+      point1: pointsToList[0],
+      point2: pointsToList[1],
+      point3: pointsToList[2],
+      point4: pointsToList[3],
+      point5: pointsToList[4],
+      blurb: faker.lorem.paragraph(),
+      sizing: faker.random.word(),
+      material: faker.commerce.productMaterial(),
+      fit: faker.commerce.productAdjective(),
+      length: faker.random.words(),
+      features: faker.commerce.productAdjective(),
+      neckline: faker.commerce.productAdjective(),
+      itemStyle: faker.commerce.productAdjective(),
+      garmentCuffCutType: faker.random.words(),
+      garmentSleeveStyle: faker.random.words(),
+      careAndCleaning: faker.random.words(),
+      TCIN: faker.random.number(),
+      UPC: faker.random.number(),
+      DPCI: faker.random.number(),
+      origin: faker.random.word(),
+      recycledPolyester: faker.random.boolean(),
+      fastShipping: faker.random.boolean(),
+      estimatedShipDimensions: faker.lorem.sentence(),
+      estimatedShipWeight: faker.random.words(),
+      type: 'Men - Shirts',
+    };
+
+    const detailArr = Object.keys(itemObj).map((key) => itemObj[key]);
+    allDetail.push(detailArr);
+  }
+  return allDetail;
+}
+
 
 
 module.exports = {
   createQuestionBatch,
-  createSizeBatch
+  createSizeBatch,
+  createDetailBatch
 }
