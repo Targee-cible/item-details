@@ -22,31 +22,31 @@ const genFunc = require('./generateFunc.js');
 //   })
 
 // INSERTING DATA FOR QUESTIONS
-const seedQuestions = () => {
-  var quesArr = genFunc.createQuestionBatch();
-  const questionQuery = `LOAD DATA LOCAL INFILE './db/CSVdata/questionData.csv' 
+const seedQuestions = (fileCount) => {
+  const path = `./db/CSVdata/questionData${fileCount}.csv`
+  const questionQuery = `LOAD DATA LOCAL INFILE ?
   INTO TABLE questions FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'` ;
   return new Promise((resolve, reject) => {
-    db.query(questionQuery, (err, res) => {
+    db.query(questionQuery, path, (err, res) => {
       if (err) reject(err);
       if (res) resolve(res.affectedRows); 
     });
   }) 
 }
 
-const recursiveSeed = (currentTime, end) => {
-  seedQuestions()
+const recursiveSeed = (fileNum, currentTime, end) => {
+  seedQuestions(fileNum)
     .then((rows) => {
       console.log('added rows', rows);
       if (currentTime !== end) {
-        recursiveSeed(currentTime+1, end);
+        recursiveSeed(fileNum + 1, currentTime + 1, end);
       } 
       console.log('done seeding');
     })
 }
 
 
-recursiveSeed(0,2);
+recursiveSeed(0, 0, 2);
 
 
 // // INSERTING DATA FOR ITEM-DETAIL

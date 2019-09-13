@@ -28,113 +28,45 @@ const fs = require('fs');
 // fs.writeFileSync('./db/CSVdata/sizingData.csv', sizingCSV);
 
 
-// // TO CREATE JSON FOR QUESTIONS
-// // generate questions data
-// const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
-// const checkIfQuestionHasAnswer = function () {
-//   const hasAnswer = faker.random.number({ min: 0, max: 1 });
-//   const answerArray = [];
-//   if (hasAnswer) {
-//     answerArray.push(faker.lorem.sentence(), faker.name.firstName(), faker.date.past());
-//     answerArray.push(faker.random.number({ min: 0, max: 5 }), faker.random.number({ min: 0, max: 5 }), faker.random.boolean());
-//   } else {
-//     answerArray.push('null', 'null', 'null', 'null', 'null', 'null');
-//   }
-//   return answerArray;
-// };
-
-// // generate 200 (will have to adjust this num later) random questions for random itemIds
-// const generateQuestionJSON = function () {
-//   const allQs = [];
-//   for (let index = 0; index < 3; index += 1) { // adjust the index based on how much data is needed
-//     const getAnswers = checkIfQuestionHasAnswer();
-//     const qObj = {
-//       id: 'null',
-//       itemId: getRandomItemId(),
-//       question: faker.lorem.sentence(),
-//       asker: faker.name.firstName(),
-//       dateAsked: faker.date.past(),
-//       answer: getAnswers[0],
-//       nameOfResponder: getAnswers[1],
-//       dateAnswered: getAnswers[2],
-//       helpfulCount: getAnswers[3],
-//       unhelpfulCount: getAnswers[4],
-//       teamMember: getAnswers[5],
-//     };
-//     allQs.push(qObj);
-//   }
-//   return allQs;
-// };
-
-// const convertQuesToCSV = function( JSONobj ) {
-//   let str = []; 
-//   JSONobj.forEach((rowData) => {
-//     const infoArr = Object.keys(rowData).map((key) => rowData[key]);
-//     str.push(infoArr.join(', '));
-//   });
-//   return str.join('\n');
-// } 
-
-// const quesCSV = convertQuesToCSV(generateQuestionJSON());
-// fs.writeFileSync('./db/CSVdata/questionData.csv', quesCSV);
-
-
-
-// TO CREATE JSON FOR ITEM DETAIL
-const randomBulletPoints = function () {
-  const options = faker.random.number({ min: 0, max: 4 });
-  const pointsToList = ['null', 'null', 'null', 'null', 'null'];
-  if (options === 0) {	
-    return pointsToList;	
-  }	
-  let i = 0;	
-  while (i <= options) {	
-    pointsToList[i] = faker.lorem.sentence();	
-    i += 1;	
-  }	
-  return pointsToList;	
-};
-  // loop to add into item detail table, will have to adjust the 100 num
-const generateDetailJSON = function () {
-  let allDetail = [];
-  for (let j = 1; j <= 3; j += 1) { // adjust for amount of data wanted
-    const pointsToList = randomBulletPoints();
-    const itemObj = {
-      id: 'null',
-      itemId: j,
-      point1: pointsToList[0],
-      point2: pointsToList[1],
-      point3: pointsToList[2],
-      point4: pointsToList[3],
-      point5: pointsToList[4],
-      blurb: faker.lorem.paragraph(),
-      sizing: faker.random.word(),
-      material: faker.commerce.productMaterial(),
-      fit: faker.commerce.productAdjective(),
-      length: faker.random.words(),
-      features: faker.commerce.productAdjective(),
-      neckline: faker.commerce.productAdjective(),
-      itemStyle: faker.commerce.productAdjective(),
-      garmentCuffCutType: faker.random.words(),
-      garmentSleeveStyle: faker.random.words(),
-      careAndCleaning: faker.random.words(),
-      TCIN: faker.random.number(),
-      UPC: faker.random.number(),
-      DPCI: faker.random.number(),
-      origin: faker.random.word(),
-      recycledPolyester: faker.random.boolean(),
-      fastShipping: faker.random.boolean(),
-      estimatedShipDimensions: faker.lorem.sentence(),
-      estimatedShipWeight: faker.random.words(),
-      type: 'Men - Shirts',
-    };
-
-    allDetail.push(itemObj);
+// TO CREATE JSON FOR QUESTIONS
+// generate questions data
+const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
+const checkIfQuestionHasAnswer = function () {
+  const hasAnswer = faker.random.number({ min: 0, max: 1 });
+  const answerArray = [];
+  if (hasAnswer) {
+    answerArray.push(faker.lorem.sentence(), faker.name.firstName(), faker.date.past());
+    answerArray.push(faker.random.number({ min: 0, max: 5 }), faker.random.number({ min: 0, max: 5 }), faker.random.boolean());
+  } else {
+    answerArray.push('null', 'null', 'null', 'null', 'null', 'null');
   }
-  return allDetail;
+  return answerArray;
 };
-  
-const convertDetailToCSV = function( JSONobj ) {
+
+// generate 200 (will have to adjust this num later) random questions for random itemIds
+const generateQuestionJSON = function () {
+  const allQs = [];
+  for (let index = 0; index < 3; index += 1) { // adjust the index based on how much data is needed
+    const getAnswers = checkIfQuestionHasAnswer();
+    const qObj = {
+      id: 'null',
+      itemId: getRandomItemId(),
+      question: faker.lorem.sentence(),
+      asker: faker.name.firstName(),
+      dateAsked: faker.date.past(),
+      answer: getAnswers[0],
+      nameOfResponder: getAnswers[1],
+      dateAnswered: getAnswers[2],
+      helpfulCount: getAnswers[3],
+      unhelpfulCount: getAnswers[4],
+      teamMember: getAnswers[5],
+    };
+    allQs.push(qObj);
+  }
+  return allQs;
+};
+
+const convertQuesToCSV = function( JSONobj ) {
   let str = []; 
   JSONobj.forEach((rowData) => {
     const infoArr = Object.keys(rowData).map((key) => rowData[key]);
@@ -143,5 +75,77 @@ const convertDetailToCSV = function( JSONobj ) {
   return str.join('\n');
 } 
 
-const detailCSV = convertDetailToCSV(generateDetailJSON());
-fs.writeFileSync('./db/CSVdata/detailData.csv', detailCSV);
+// loop to create multiple files
+for (var i = 0; i < 3; i++) {
+  const quesCSV = convertQuesToCSV(generateQuestionJSON());
+  fs.writeFileSync(`./db/CSVdata/questionData${i}.csv`, quesCSV);
+}
+
+
+
+
+// TO CREATE JSON FOR ITEM DETAIL
+// const randomBulletPoints = function () {
+//   const options = faker.random.number({ min: 0, max: 4 });
+//   const pointsToList = ['null', 'null', 'null', 'null', 'null'];
+//   if (options === 0) {	
+//     return pointsToList;	
+//   }	
+//   let i = 0;	
+//   while (i <= options) {	
+//     pointsToList[i] = faker.lorem.sentence();	
+//     i += 1;	
+//   }	
+//   return pointsToList;	
+// };
+//   // loop to add into item detail table, will have to adjust the 100 num
+// const generateDetailJSON = function () {
+//   let allDetail = [];
+//   for (let j = 1; j <= 3; j += 1) { // adjust for amount of data wanted
+//     const pointsToList = randomBulletPoints();
+//     const itemObj = {
+//       id: 'null',
+//       itemId: j,
+//       point1: pointsToList[0],
+//       point2: pointsToList[1],
+//       point3: pointsToList[2],
+//       point4: pointsToList[3],
+//       point5: pointsToList[4],
+//       blurb: faker.lorem.paragraph(),
+//       sizing: faker.random.word(),
+//       material: faker.commerce.productMaterial(),
+//       fit: faker.commerce.productAdjective(),
+//       length: faker.random.words(),
+//       features: faker.commerce.productAdjective(),
+//       neckline: faker.commerce.productAdjective(),
+//       itemStyle: faker.commerce.productAdjective(),
+//       garmentCuffCutType: faker.random.words(),
+//       garmentSleeveStyle: faker.random.words(),
+//       careAndCleaning: faker.random.words(),
+//       TCIN: faker.random.number(),
+//       UPC: faker.random.number(),
+//       DPCI: faker.random.number(),
+//       origin: faker.random.word(),
+//       recycledPolyester: faker.random.boolean(),
+//       fastShipping: faker.random.boolean(),
+//       estimatedShipDimensions: faker.lorem.sentence(),
+//       estimatedShipWeight: faker.random.words(),
+//       type: 'Men - Shirts',
+//     };
+
+//     allDetail.push(itemObj);
+//   }
+//   return allDetail;
+// };
+  
+// const convertDetailToCSV = function( JSONobj ) {
+//   let str = []; 
+//   JSONobj.forEach((rowData) => {
+//     const infoArr = Object.keys(rowData).map((key) => rowData[key]);
+//     str.push(infoArr.join(', '));
+//   });
+//   return str.join('\n');
+// } 
+
+// const detailCSV = convertDetailToCSV(generateDetailJSON());
+// fs.writeFileSync('./db/CSVdata/detailData.csv', detailCSV);
