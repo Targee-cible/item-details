@@ -3,7 +3,7 @@ const faker = require('faker');
 const db = require('./indexSQL.js');
 const genFunc = require('./generateFunc.js');
 
-
+let maxCount = 0; 
 // // INSERTING DATA FOR SIZING TABLE
 // const seedSize = () => {
 //   const sizingQuery = `LOAD DATA LOCAL INFILE './db/CSVdata/sizingData.csv' 
@@ -34,22 +34,52 @@ const seedQuestions = (fileCount) => {
   }) 
 }
 
-const recursiveSeed = (fileNum, currentTime, end) => {
+const recursiveSeedQuestions = (fileNum, currentTime, end) => {
   seedQuestions(fileNum)
     .then((rows) => {
       console.log('added rows', rows);
       if (currentTime !== end) {
-        recursiveSeed(fileNum + 1, currentTime + 1, end);
+        recursiveSeedQuestions(fileNum + 1, currentTime + 1, end, table);
       } 
-      console.log('done seeding');
+      console.log('done seeding table');
     })
 }
 
 
-recursiveSeed(0, 0, 2);
+// recursiveSeed(0, 0, 2);
 
 
 // // INSERTING DATA FOR ITEM-DETAIL
+const seedDetail = (fileCount) => {
+  const path = `./db/CSVdata/detailData${fileCount}.csv`
+  const questionQuery = `LOAD DATA LOCAL INFILE ?
+  INTO TABLE detail FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'` ;
+  return new Promise((resolve, reject) => {
+    db.query(questionQuery, path, (err, res) => {
+      if (err) reject(err);
+      if (res) resolve(res.affectedRows); 
+    });
+  }) 
+}
+
+const recursiveSeedDetail = (fileNum, currentTime, end) => {
+  seedDetail(fileNum)
+    .then((rows) => {
+      maxCount++;
+      console.log('count', maxCount);
+      console.log('added rows', rows);
+      if (currentTime !== end) {
+        recursiveSeedDetail(fileNum + 1, currentTime + 1, end);
+      } 
+      if (maxCount === 3) {
+        db.end();
+      }
+      console.log('done seeding detail');
+    })
+}
+
+recursiveSeedDetail(0, 0, 2);
+
 // var insertBatchDetail = function() {
 //   for (var i = 0; i < 3; i++) {
 //     const allDetail = [];
@@ -71,3 +101,7 @@ recursiveSeed(0, 0, 2);
 //     });
 //   }
 // };
+
+if (maxCount === 3) {
+  db.end();
+}
