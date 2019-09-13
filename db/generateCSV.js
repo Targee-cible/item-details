@@ -145,6 +145,3 @@ const convertDetailToCSV = function( JSONobj ) {
 
 const detailCSV = convertDetailToCSV(generateDetailJSON());
 fs.writeFileSync('./db/CSVdata/detailData.csv', detailCSV);
-
-// const detailJSON = generateDetailJSON();
-// fs.writeFileSync('./db/JSONdata/detailData.js', JSON.stringify(detailJSON, null, '\t'));
