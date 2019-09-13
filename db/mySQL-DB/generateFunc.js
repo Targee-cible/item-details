@@ -1,8 +1,8 @@
 const faker = require('faker');
-const fs = require('fs');
 
-// TO CREATE JSON FOR SIZING
-const generateSizingJSON = function() {
+// TO CREATE OBJ FOR SIZING
+const createSizeBatch = function() {
+  let masterArr = [];
   const sizingArrayToSeed = [
     { type: 'Men - Shirts', size: 'XS', neck: '13-13.5', chest: '30-32', sleeve: '31.5-32' },
     { type: 'Men - Shirts', size: 'S', neck: '14-14.5', chest: '34-36', sleeve: '32.5-33' },
@@ -12,15 +12,15 @@ const generateSizingJSON = function() {
     { type: 'Men - Shirts', size: 'XXL', neck: '18-18.5', chest: '50-52', sleeve: '36.5-37' },
     { type: 'Men - Shirts', size: 'XXXL', neck: '19-19.5', chest: '54-56', sleeve: '37.5-38' }
   ];
-  return sizingArrayToSeed;
+  sizingArrayToSeed.forEach((seed) => {
+    const infoArr = [seed.type, seed.size, seed.neck, seed.chest, seed.sleeve];
+    masterArr.push(infoArr);
+  });
+  return masterArr;
 };
 
-const sizingJSON = generateSizingJSON();
-fs.writeFileSync('./db/JSONdata/sizingData.js', JSON.stringify(sizingJSON, null, '\t'));
 
-
-// TO CREATE JSON FOR QUESTIONS
-// generate questions data
+// TO CREATE OBJ FOR QUESTOINS
 const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
 const checkIfQuestionHasAnswer = function () {
   const hasAnswer = faker.random.number({ min: 0, max: 1 });
@@ -34,10 +34,9 @@ const checkIfQuestionHasAnswer = function () {
   return answerArray;
 };
 
-// generate 200 (will have to adjust this num later) random questions for random itemIds
-const generateQuestionJSON = function () {
+const createQuestionBatch = function() {
   const allQs = [];
-  for (let index = 1; index < 20000; index += 1) { // adjust the index based on how much data is needed
+  for (let index = 1; index < 10000; index += 1) { // adjust the index based on how much data is needed
     const getAnswers = checkIfQuestionHasAnswer();
     const qObj = {
       itemId: getRandomItemId(),
@@ -51,20 +50,33 @@ const generateQuestionJSON = function () {
       unhelpfulCount: getAnswers[4],
       teamMember: getAnswers[5],
     };
-    // const questArr = Object.keys(qObj).map((key) => qObj[key]);
-    allQs.push(qObj);
+    const questArr = Object.keys(qObj).map((key) => qObj[key]);
+    allQs.push(questArr);
   }
   return allQs;
 };
 
-const questionJSON = generateQuestionJSON();
-fs.writeFileSync('./db/JSONdata/questionsData.js', JSON.stringify(questionJSON, null, '\t'));
+// TO CREATE OBJ FOR DETAIL
+const randomBulletPoints = function () {
+  const options = faker.random.number({ min: 0, max: 4 });
+  const pointsToList = [null, null, null, null, null];
+  if (options === 0) {	
+    return pointsToList;	
+  }	
+  let i = 0;	
+  while (i <= options) {	
+    pointsToList[i] = faker.lorem.sentence();	
+    i += 1;	
+  }	
+  return pointsToList;	
+};
+  
 
 
-// TO CREATE JSON FOR ITEM DETAIL
-  // loop to add into item detail table, will have to adjust the 100 num
+const createDetailBatch = function() {
   let allDetail = [];
-  for (let j = 1; j <= 100; j += 1) { // adjust for amount of data wanted
+
+  for (let j = 1; j <= 10000; j += 1) { // adjust for amount of data wanted
     const pointsToList = randomBulletPoints();
     const itemObj = {
       itemId: j,
@@ -95,11 +107,15 @@ fs.writeFileSync('./db/JSONdata/questionsData.js', JSON.stringify(questionJSON, 
       type: 'Men - Shirts',
     };
 
-    // const detailArr = Object.keys(itemObj).map((key) => itemObj[key]);
     allDetail.push(itemObj);
   }
   return allDetail;
-};
+}
 
-const detailJSON = generateDetailJSON();
-fs.writeFileSync('./db/JSONdata/detailData.js', JSON.stringify(detailJSON, null, '\t'));
+
+
+module.exports = {
+  createQuestionBatch,
+  createSizeBatch,
+  createDetailBatch
+}

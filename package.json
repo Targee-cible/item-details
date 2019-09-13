@@ -12,7 +12,9 @@
     "react-dev": "webpack -d --watch",
     "mocha": "mocha spec/server/server-tests.js --exit",
     "test": "jest --coverage",
-    "seed:test": "node db/db-spec/seed-test.js"
+    "seed:test": "node db/db-spec/seed-test.js",
+    "generateData": "node db/generateData.js",
+    "createDB": "mysql -u root < db/mySQL-DB/schema.sql"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
