@@ -1,4 +1,5 @@
 -- create database target
+DROP DATABASE targetItem;
 CREATE DATABASE targetItem;
 USE targetItem;
 
