@@ -1,6 +1,6 @@
 const faker = require('faker');
 
-// TO CREATE JSON FOR SIZING
+// TO CREATE OBJ FOR SIZING
 const createSizeBatch = function() {
   let masterArr = [];
   const sizingArrayToSeed = [
@@ -20,7 +20,7 @@ const createSizeBatch = function() {
 };
 
 
-// INSERTING DATA FOR QUESTIONS
+// TO CREATE OBJ FOR QUESTOINS
 const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
 const checkIfQuestionHasAnswer = function () {
   const hasAnswer = faker.random.number({ min: 0, max: 1 });
@@ -56,6 +56,7 @@ const createQuestionBatch = function() {
   return allQs;
 };
 
+// TO CREATE OBJ FOR DETAIL
 const randomBulletPoints = function () {
   const options = faker.random.number({ min: 0, max: 4 });
   const pointsToList = [null, null, null, null, null];
@@ -105,8 +106,8 @@ const createDetailBatch = function() {
       type: 'Men - Shirts',
     };
 
-    const detailArr = Object.keys(itemObj).map((key) => itemObj[key]);
-    allDetail.push(detailArr);
+    // const detailArr = Object.keys(itemObj).map((key) => itemObj[key]);
+    allDetail.push(itemObj);
   }
   return allDetail;
 }

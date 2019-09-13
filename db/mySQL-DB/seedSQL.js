@@ -27,7 +27,12 @@ const genFunc = require('./generateFunc.js');
 
 // INSERTING DATA FOR ITEM-DETAIL
 for (var i = 0; i <= 10; i++) {
-  const allDetail = genFunc.createDetailBatch();
+  const allDetail = [];
+  const generatedDetail = genFunc.createDetailBatch();
+  generatedDetail.forEach((item) => {
+    const detailArr = Object.keys(item).map((key) => item[key]);
+    allDetail.push(detailArr)
+  })
   const detailQuery = `INSERT INTO detail
         (itemId, fitAndSTylePointOne, fitAndSTylePointTwo,
         fitAndSTylePointThree, fitAndSTylePointFour, fitAndSTylePointFive, 
