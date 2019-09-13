@@ -37,7 +37,7 @@ const checkIfQuestionHasAnswer = function () {
 // generate 200 (will have to adjust this num later) random questions for random itemIds
 const generateQuestionJSON = function () {
   const allQs = [];
-  for (let index = 1; index < 50000; index += 1) { // adjust the index based on how much data is needed
+  for (let index = 1; index < 20000; index += 1) { // adjust the index based on how much data is needed
     const getAnswers = checkIfQuestionHasAnswer();
     const qObj = {
       itemId: getRandomItemId(),
@@ -62,26 +62,10 @@ fs.writeFileSync('./db/JSONdata/questionsData.js', JSON.stringify(questionJSON, 
 
 
 // TO CREATE JSON FOR ITEM DETAIL
-const generateDetailJSON = function() {
-  const randomBulletPoints = function () {
-    const options = faker.random.number({ min: 0, max: 4 });
-    const pointsToList = [null, null, null, null, null];
-
-    if (options === 0) {
-      return pointsToList;
-    }
-
-    let i = 0;
-    while (i <= options) {
-      pointsToList[i] = faker.lorem.sentence();
-      i += 1;
-    }
-    return pointsToList;
-  };
 
   // loop to add into item detail table, will have to adjust the 100 num
   let allDetail = [];
-  for (let j = 1; j <= 50000; j += 1) { // adjust for amount of data wanted
+  for (let j = 1; j <= 10000; j += 1) { // adjust for amount of data wanted
     const pointsToList = randomBulletPoints();
     const itemObj = {
       itemId: j,
