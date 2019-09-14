@@ -6,7 +6,7 @@ const db = require('./indexSQL.js');
 const maxCountDetail = 99; // reassign for when you want seeding to end
 let startCountDetail = 0;
 // need 50 cycles of questions => maxCountQuestions = 49
-const maxCountQuestions = 49;
+const maxCountQuestions = 9;
 let startCountQuestions = 0;
 let totalCountDetail = 0; 
 let totalCountQuestions = 0;
