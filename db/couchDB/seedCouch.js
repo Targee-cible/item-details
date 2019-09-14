@@ -5,7 +5,7 @@ const gen = require('../generateCSV.js');
 const maxCountDetail = 3; // reassign for when you want seeding to end
 let startCountDetail = 0;
 // need 50 cycles of questions => maxCountQuestions = 49
-const maxCountQuestions = 9;
+const maxCountQuestions = 5;
 let startCountQuestions = 0;
 let totalCountDetail = 0; 
 let totalCountQuestions = 0;
