@@ -101,7 +101,7 @@ const randomBulletPoints = function () {
   // loop to add into item detail table, will have to adjust the 100 num
 const generateDetailJSON = function () {
   let allDetail = [];
-  for (let j = 1; j <= 50000; j += 1) { // adjust for amount of data wanted
+  for (let j = 1; j <= 100000; j += 1) { // adjust for amount of data wanted
     const pointsToList = randomBulletPoints();
     const itemObj = {
       id: 'null',
@@ -146,7 +146,7 @@ const convertDetailToCSV = function( JSONobj ) {
   return str.join('\n');
 } 
 
-for (var i = 1; i <= 10; i++) {
+for (var i = 0; i <= 9; i++) {
   const detailCSV = convertDetailToCSV(generateDetailJSON());
   fs.writeFileSync(`./db/CSVdata/detailData${i}.csv`, detailCSV);
 }
