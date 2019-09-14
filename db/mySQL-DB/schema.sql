@@ -1,4 +1,5 @@
 -- create database target
+DROP DATABASE targetItem;
 CREATE DATABASE targetItem;
 USE targetItem;
 
@@ -26,7 +27,6 @@ CREATE TABLE questions (
 
 CREATE TABLE detail (
   id int primary key auto_increment,
-  itemId int,
   fitAndSTylePointOne varchar(255),
   fitAndSTylePointTwo varchar(255),
   fitAndSTylePointThree varchar(255),
