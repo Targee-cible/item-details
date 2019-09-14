@@ -1,11 +1,11 @@
 const db = require('./indexCouch.js');
-const gen = require('../generateCSV.js');
+const gen = require('./genFunc.js');
 
 // need 99 cyles of detail => maxCountDetail = 99
-const maxCountDetail = 3; // reassign for when you want seeding to end
+const maxCountDetail = 4; // reassign for when you want seeding to end
 let startCountDetail = 0;
 // need 50 cycles of questions => maxCountQuestions = 49
-const maxCountQuestions = 5;
+const maxCountQuestions = 3;
 let startCountQuestions = 0;
 let totalCountDetail = 0; 
 let totalCountQuestions = 0;
@@ -32,13 +32,16 @@ const recursiveSeedQuestions = (currentTime, end) => {
       if (currentTime === end) {
         console.log('time to complete seed question', new Date() - startTime);
         console.log('done seeding questions, added', totalCountQuestions);
-        recursiveSeedDetail(0, maxCountDetail);
+        recursiveSeedDetail(1, maxCountDetail);
       }
     })
 };
 
 const recursiveSeedDetail = (currentTime, end) => {
-  const detailArr = gen.generateDetailJSON(2);
+  // console.log(currentTime, 'currentTime loop');
+  // console.log(totalCountDetail, 'totalCountDetail');
+  const detailArr = gen.generateDetailJSON(3, totalCountDetail);
+
   db.bulk({docs: detailArr})
     .then((rows) => {
       startCountDetail++;
