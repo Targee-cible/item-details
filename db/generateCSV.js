@@ -100,7 +100,7 @@ const randomBulletPoints = function () {
   // loop to add into item detail table, will have to adjust the 100 num
 const generateDetailJSON = function (amtPerBatch) {
   let allDetail = [];
-  for (let j = 0; j < amtPerBatch; j += 1) { // adjust for amount of data wanted
+  for (let j = 1; j <= amtPerBatch; j += 1) { // adjust for amount of data wanted
     const pointsToList = randomBulletPoints();
     const itemObj = {
       id: 'null',
