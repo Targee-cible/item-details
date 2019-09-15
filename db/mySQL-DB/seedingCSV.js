@@ -8,20 +8,20 @@ let startCountDetail = 0;
 // need 50 cycles of questions => maxCountQuestions = 49
 const maxCountQuestions = 9;
 let startCountQuestions = 0;
-let totalCountDetail = 0; 
+let totalCountDetail = 0;
 let totalCountQuestions = 0;
 const startTime = new Date();
 
 // INSERTING DATA FOR SIZING TABLE
 const seedSize = () => {
-  const sizingQuery = `LOAD DATA LOCAL INFILE './db/CSVdata/sizingData.csv' 
+  const sizingQuery = `LOAD DATA LOCAL INFILE './db/CSVdata/sizingData.csv'
     INTO TABLE sizing FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'` ;
   return new Promise((resolve, reject) => {
     db.query(sizingQuery, (err, res) => {
       if (err) reject(err);
-      if (res) resolve(res.affectedRows); 
+      if (res) resolve(res.affectedRows);
     });
-  }) 
+  })
 };
 
 
@@ -36,9 +36,9 @@ const seedQuestions = (fileCount) => {
   return new Promise((resolve, reject) => {
     db.query(questionQuery, path, (err, res) => {
       if (err) reject(err);
-      if (res) resolve(res.affectedRows); 
+      if (res) resolve(res.affectedRows);
     });
-  }) 
+  })
 };
 
 const recursiveSeedQuestions = (fileNum, currentTime, end) => {
@@ -48,7 +48,7 @@ const recursiveSeedQuestions = (fileNum, currentTime, end) => {
       totalCountQuestions+= rows;
       if (currentTime !== end) {
         recursiveSeedQuestions(fileNum + 1, currentTime + 1, end);
-      } 
+      }
       if (currentTime === end) {
         console.log('time to complete seed question', new Date() - startTime);
         console.log('done seeding questions');
@@ -68,9 +68,9 @@ const seedDetail = (fileCount) => {
   return new Promise((resolve, reject) => {
     db.query(questionQuery, path, (err, res) => {
       if (err) reject(err);
-      if (res) resolve(res.affectedRows); 
+      if (res) resolve(res.affectedRows);
     });
-  }) 
+  })
 };
 
 const recursiveSeedDetail = (fileNum, currentTime, end) => {
@@ -80,7 +80,7 @@ const recursiveSeedDetail = (fileNum, currentTime, end) => {
       totalCountDetail+= rows;
       if (currentTime !== end) {
         recursiveSeedDetail(fileNum + 1, currentTime + 1, end);
-      } 
+      }
       if (currentTime === end) {
         db.end();
         console.log('time to complete all seeding', new Date() - startTime);
@@ -98,4 +98,3 @@ seedSize()
     console.log('size seeding completed data. added rows:' + rowsAdded);
     recursiveSeedQuestions(0, 0, maxCountQuestions);
   })
-  

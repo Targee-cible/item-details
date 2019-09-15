@@ -76,7 +76,7 @@ const convertQuesToCSV = function( JSONobj ) {
 
 // loop to create multiple files
 for (var i = 0; i <= 9; i++) {
-  const quesCSV = convertQuesToCSV(generateQuestionJSON());
+  const quesCSV = convertQuesToCSV(generateQuestionJSON(10000));
   fs.writeFileSync(`./db/CSVdata/questionData${i}.csv`, quesCSV);
 }
 
