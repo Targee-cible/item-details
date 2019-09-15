@@ -44,12 +44,11 @@ const checkIfQuestionHasAnswer = function () {
 };
 
 // generate 200 (will have to adjust this num later) random questions for random itemIds
-const generateQuestionJSON = function () {
+const generateQuestionJSON = function (amtPerBatch) {
   const allQs = [];
-  for (let index = 0; index < 100000; index += 1) { // adjust the index based on how much data is needed
+  for (let index = 0; index < amtPerBatch; index += 1) { // adjust the index based on how much data is needed
     const getAnswers = checkIfQuestionHasAnswer();
     const qObj = {
-      id: 'null',
       itemId: getRandomItemId(),
       question: faker.lorem.sentence(),
       asker: faker.name.firstName(),
@@ -77,7 +76,7 @@ const convertQuesToCSV = function( JSONobj ) {
 
 // loop to create multiple files
 for (var i = 0; i <= 9; i++) {
-  const quesCSV = convertQuesToCSV(generateQuestionJSON());
+  const quesCSV = convertQuesToCSV(generateQuestionJSON(10000));
   fs.writeFileSync(`./db/CSVdata/questionData${i}.csv`, quesCSV);
 }
 
@@ -99,9 +98,9 @@ const randomBulletPoints = function () {
   return pointsToList;	
 };
   // loop to add into item detail table, will have to adjust the 100 num
-const generateDetailJSON = function () {
+const generateDetailJSON = function (amtPerBatch) {
   let allDetail = [];
-  for (let j = 1; j <= 100000; j += 1) { // adjust for amount of data wanted
+  for (let j = 1; j <= amtPerBatch; j += 1) { // adjust for amount of data wanted
     const pointsToList = randomBulletPoints();
     const itemObj = {
       id: 'null',
@@ -147,6 +146,12 @@ const convertDetailToCSV = function( JSONobj ) {
 } 
 
 for (var i = 0; i <= 9; i++) {
-  const detailCSV = convertDetailToCSV(generateDetailJSON());
+  const detailCSV = convertDetailToCSV(generateDetailJSON(100000));
   fs.writeFileSync(`./db/CSVdata/detailData${i}.csv`, detailCSV);
+}
+
+module.exports = {
+  generateSizingJSON, 
+  generateQuestionJSON,
+  generateDetailJSON
 }
