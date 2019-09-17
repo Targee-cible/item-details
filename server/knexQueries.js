@@ -21,6 +21,7 @@ exports.getAllQuestions = ((req, res) => {
   const id = req.params.itemId;
   knex('questions')
     .where({ itemId: id })
+    .orderBy('id', 'desc')
     .limit(5)
     .then((data) => {
       // console.log(JSON.parse(JSON.stringify(data)));
@@ -33,31 +34,33 @@ exports.getAllDetail = ((req, res) => {
   knex('detail')
     .where({ id })
     .then((data) => {
-      console.log(JSON.parse(JSON.stringify(data)));
+      // console.log(JSON.parse(JSON.stringify(data)));
       res.send(JSON.parse(JSON.stringify(data)));
     });
 });
 
-// exports.addQuestion((req, res) => {
-//   const post = {
-//     itemId: req.body.itemId,
-//     question: req.body.question,
-//     asker: req.body.asker,
-//     dateAsked: new Date(),
-//     answer: null,
-//     nameOfResponder: null,
-//     dateAnswered: null,
-//     helpfulCount: null,
-//     unhelpfulCount: null,
-//     teamMember: null,
-//   };
+exports.addQuestion = ((req, res) => {
+  // console.log(req.body);
+  const post = {
+    itemId: req.body.itemId,
+    question: req.body.question,
+    asker: req.body.asker,
+    dateAsked: new Date(),
+    answer: null,
+    nameOfResponder: null,
+    dateAnswered: null,
+    helpfulCount: null,
+    unhelpfulCount: null,
+    targetTeamMember: null,
+  };
+  // console.log(post);
 
-//   knex('questions')
-//     .insert(post)
-//     .then(() => {
-//       res.sendStatus(200);
-//     });
-// });
+  knex('questions')
+    .insert(post)
+    .then(() => {
+      res.sendStatus(200);
+    });
+});
 
 // exports.updateDetail((req, res) => {
 //   const updateObj = {};

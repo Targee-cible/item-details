@@ -33,7 +33,7 @@ app.get('/api/sizing/:itemId', (req, res) => {
 });
 
 app.post('/api/post', (req, res) => {
-
+  db.addQuestion(req, res);
 });
 
 app.put('/api/update', (req, res) => {
