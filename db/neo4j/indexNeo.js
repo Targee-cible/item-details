@@ -3,8 +3,8 @@ const neo4j = require('neo4j-driver').v1;
 const driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'pw123'));
 const session = driver.session();
 
-const maxDetailCycle = 9;
-const maxQuestionCycle = 4;
+const maxDetailCycle = 99;
+const maxQuestionCycle = 19;
 let totalCountDetail = 0;
 let totalCountQuestions = 0;
 const startTime = new Date();
@@ -27,18 +27,18 @@ const seedQuestions = (fileCount) => {
 }
 
 const recursiveSeedQuestions = (fileNum, currentTime, end) => {
+  // if (fileNum > 20) {
+  //   fileNum = fileNum.toString().split('').pop();
+  // }
   seedQuestions(fileNum)
     .then(() => {
-      totalCountQuestions+= 1000000;
+      totalCountQuestions+= 100000;
       if (currentTime !== end) {
-        console.log('completed round', currentTime);
         recursiveSeedQuestions(fileNum + 1, currentTime + 1, end);
       }
       if (currentTime === end) {
-        console.log('completed round', currentTime);
         driver.close();
         console.log('time to complete seed question', new Date() - startTime);
-        console.log('done seeding questions');
         recursiveSeedDetail(0, 0, maxDetailCycle);
       }
     })
@@ -55,15 +55,13 @@ const seedDetail = (fileCount) => {
 const recursiveSeedDetail = (fileNum, currentTime, end) => {
   seedDetail(fileNum)
     .then(() => {
-      totalCountDetail+= 1000000;
+      totalCountDetail+= 100000;
       if (currentTime !== end) {
-        console.log('completed round', currentTime);
         recursiveSeedDetail(fileNum + 1, currentTime + 1, end);
       }
       if (currentTime === end) {
         driver.close();
         console.log('time to complete all seeding', new Date() - startTime);
-        console.log('done seeding detail');
         console.log('total questions added', totalCountQuestions);
         console.log('total detail added', totalCountDetail);
       }

@@ -53,13 +53,25 @@ exports.addQuestion = ((req, res) => {
     unhelpfulCount: null,
     targetTeamMember: null,
   };
-  // console.log(post);
+  console.log(post);
 
   knex('questions')
-    .insert(post)
-    .then(() => {
-      res.sendStatus(200);
-    });
+    .where({itemId: req.body.itemId})
+    .then((data) => {
+      // console.log(data);
+      console.log(JSON.parse(JSON.stringify(data)).length);
+      knex('questions')
+        .insert(post, ['itemId'])
+        .then((data) => {
+          console.log(data);
+          res.sendStatus(200);
+          knex('questions')
+            .where({itemId: req.body.itemId})
+            .then((data) => {
+              console.log(data.length);
+            })
+        })
+    })
 });
 
 // exports.updateDetail((req, res) => {

@@ -9,131 +9,53 @@ const fakerBlurb = require('../couchDB/fakerBlurbs.js');
 
 // fs.writeFileSync(`./db/neo4j/neo4Data/sizingNeoCSV.csv`, sizingCSV);
 
-// // TO CREATE JSON FOR QUESTIONS
-// // generate questions data
-// const checkIfQuestionHasAnswer = function () {
-//   const hasAnswer = Math.floor(Math.random() * Math.floor(2));
-//   const answerArray = [];
-//   if (hasAnswer) {
-//     answerArray.push(fakerBlurb.sentence[Math.floor(Math.random() * Math.floor(201))], faker.name.firstName(), faker.date.past());
-//     answerArray.push(Math.floor(Math.random() * Math.floor(6)), Math.floor(Math.random() * Math.floor(6)), faker.random.boolean());
-//   } else {
-//     answerArray.push('null', 'null', 'null', 'null', 'null', 'null');
-//   }
-//   return answerArray;
-// };
-
-// // generate 200 (will have to adjust this num later) random questions for random itemIds
-// const generateQuestionString = function (amtPerBatch) {
-//   const getAnswers = checkIfQuestionHasAnswer();
-
-//   // data consts
-//   const itemId = Math.floor(Math.random() * Math.floor(101));
-//   const question = fakerBlurb.sentence[Math.floor(Math.random() * Math.floor(201))];
-//   const asker = faker.name.firstName();
-//   const dateAsked = faker.date.past();
-//   const answer = getAnswers[0];
-//   const nameOfResponder = getAnswers[1];
-//   const dateAnswered = getAnswers[2];
-//   const helpfulCount = getAnswers[3];
-//   const unhelpfulCount = getAnswers[4];
-//   const teamMember = getAnswers[5];
-
-//   return `${itemId},${question},${asker},${dateAsked},${answer},${nameOfResponder},${dateAnswered},${helpfulCount},${unhelpfulCount},${teamMember}`;
-
-// };
-
-// const generateAllQuestions = function(path, length) {
-//   return new Promise((resolve, reject) => {
-//     const output = fs.createWriteStream(path, {encoding: 'utf8'});
-//     output.write('itemId,question,asker,dateAsked,answer,nameOfResponder,dateAnswered,helpfulCount,unhelpfulCount,teamMember');
-
-//     (async() => {
-//       for (var i = 0; i < length; i++) {
-//         const obj = generateQuestionString(i);
-
-//         if(!output.write(obj)) {
-//           await new Promise(resolve => output.once('drain', resolve));
-//         }
-//         if (i !== length) {
-//           output.write('\n');
-//         }
-//       }
-//       output.end();
-//     })();
-//     output.on('finish', () => resolve('detal generated'));
-//   })
-// };
-
-// for (var i = 0; i < 5; i++) {
-//   generateAllQuestions(`./db/neo4j/neo4Data/quesNeoCSV${i}.csv`, 1000000);
-// }
-
-
-// TO CREATE JSON FOR ITEM DETAIL
-const randomBulletPoints = function () {
-  const options = Math.floor(Math.random() * Math.floor(5));
-  const pointsToList = ['null', 'null', 'null', 'null', 'null'];
-  if (options === 0) {
-    return pointsToList;
+// TO CREATE JSON FOR QUESTIONS
+// generate questions data
+const checkIfQuestionHasAnswer = function () {
+  const hasAnswer = Math.floor(Math.random() * Math.floor(2));
+  const answerArray = [];
+  if (hasAnswer) {
+    answerArray.push(fakerBlurb.sentence[Math.floor(Math.random() * Math.floor(201))], faker.name.firstName(), faker.date.past());
+    answerArray.push(Math.floor(Math.random() * Math.floor(6)), Math.floor(Math.random() * Math.floor(6)), faker.random.boolean());
+  } else {
+    answerArray.push('null', 'null', 'null', 'null', 'null', 'null');
   }
-  let i = 0;
-  while (i <= options) {
-    pointsToList[i] = fakerBlurb.sentence[Math.floor(Math.random() * Math.floor(201))];
-    i += 1;
-  }
-  return pointsToList;
+  return answerArray;
 };
 
-// loop to add into item detail table, will have to adjust the 100 num
-const generateDetailJSON = function (currentNum, cycle, maxNum) {
-  const pointsToList = randomBulletPoints();
-  const randomNum = Math.floor(Math.random() * Math.floor(200));
+// generate 200 (will have to adjust this num later) random questions for random itemIds
+const generateQuestionString = function (amtPerBatch) {
+  const getAnswers = checkIfQuestionHasAnswer();
 
-  // data constants
-  const itemId = (cycle * maxNum) + currentNum;
-  const point1 = pointsToList[0];
-  const point2 = pointsToList[1];
-  const point3 = pointsToList[2];
-  const point4 = pointsToList[3];
-  const point5 = pointsToList[4];
-  const blurb = fakerBlurb.para[randomNum];
-  const sizing = faker.random.word();
-  const material = fakerBlurb.commerce[Math.floor(randomNum/2)];
-  const fit = fakerBlurb.commerce[Math.floor(randomNum/3)];
-  const length = fakerBlurb.words1[Math.floor(randomNum/2)];
-  const features = fakerBlurb.commerce[randomNum];
-  const neckline = fakerBlurb.commerce[Math.floor(randomNum/2)];
-  const itemStyle = fakerBlurb.commerce[Math.floor(randomNum/3)];
-  const garmentCuffCutType = fakerBlurb.words1[randomNum];
-  const garmentSleeveStyle = fakerBlurb.words2[randomNum];
-  const careAndCleaning = fakerBlurb.words3[Math.floor(randomNum/3)];
-  const TCIN = faker.random.number();
-  const UPC = faker.random.number();
-  const DPCI = faker.random.number();
-  const origin = fakerBlurb.words3[randomNum];
-  const recycledPolyester = faker.random.boolean();
-  const fastShipping = faker.random.boolean();
-  const estimatedShipDimensions = fakerBlurb.sentence[randomNum];
-  const estimatedShipWeight = fakerBlurb.words1[Math.floor(randomNum/3)];
-  const type = 'Men - Shirts';
+  // data consts
+  const itemId = Math.floor(Math.random() * Math.floor(10000001));
+  const question = fakerBlurb.sentence[Math.floor(Math.random() * Math.floor(201))];
+  const asker = faker.name.firstName();
+  const dateAsked = faker.date.past();
+  const answer = getAnswers[0];
+  const nameOfResponder = getAnswers[1];
+  const dateAnswered = getAnswers[2];
+  const helpfulCount = getAnswers[3];
+  const unhelpfulCount = getAnswers[4];
+  const teamMember = getAnswers[5];
 
-  return `${itemId},${point1},${point2},${point3},${point4},${point5},${blurb},${sizing},${material},${fit},${length},${features},${neckline},${itemStyle},${garmentCuffCutType},${garmentSleeveStyle},${careAndCleaning},${TCIN},${UPC},${DPCI},${origin},${recycledPolyester},${fastShipping},${estimatedShipDimensions},${estimatedShipWeight},${type}`;
+  return `${itemId},${question},${asker},${dateAsked},${answer},${nameOfResponder},${dateAnswered},${helpfulCount},${unhelpfulCount},${teamMember}`;
+
 };
 
-const generateAllDetail = function(path, cycle, maxNum) {
+const generateAllQuestions = function(path, length) {
   return new Promise((resolve, reject) => {
     const output = fs.createWriteStream(path, {encoding: 'utf8'});
-    output.write('itemId,point1,point2,point3,point4,point5,blurb,sizing,material,fit,length,features,neckline,itemStyle,garmentCuffCutType,garmentSleeveStyle,careAndCleaning,TCIN,UPC,DPCI,origin,recycledPolyester,fastShipping,estimatedShipDimensions,estimatedShipWeight,type');
+    output.write('itemId,question,asker,dateAsked,answer,nameOfResponder,dateAnswered,helpfulCount,unhelpfulCount,teamMember');
 
     (async() => {
-      for (var i = 0; i < maxNum; i++) {
-        const obj = generateDetailJSON(i, cycle, maxNum);
+      for (var i = 0; i < length; i++) {
+        const obj = generateQuestionString(i);
 
         if(!output.write(obj)) {
           await new Promise(resolve => output.once('drain', resolve));
         }
-        if (i !== maxNum) {
+        if (i !== length) {
           output.write('\n');
         }
       }
@@ -141,9 +63,87 @@ const generateAllDetail = function(path, cycle, maxNum) {
     })();
     output.on('finish', () => resolve('detal generated'));
   })
+};
+
+for (var i = 0; i < 20; i++) {
+  generateAllQuestions(`./db/neo4j/neo4Data/quesNeoCSV${i}.csv`, 100000);
 }
 
 
-for (var i = 0; i < 100; i++) {
-  generateAllDetail(`./db/neo4j/neo4Data/detailNeoCSV${i}.csv`, i, 100000);
-}
+// // TO CREATE JSON FOR ITEM DETAIL
+// const randomBulletPoints = function () {
+//   const options = Math.floor(Math.random() * Math.floor(5));
+//   const pointsToList = ['null', 'null', 'null', 'null', 'null'];
+//   if (options === 0) {
+//     return pointsToList;
+//   }
+//   let i = 0;
+//   while (i <= options) {
+//     pointsToList[i] = fakerBlurb.sentence[Math.floor(Math.random() * Math.floor(201))];
+//     i += 1;
+//   }
+//   return pointsToList;
+// };
+
+// // loop to add into item detail table, will have to adjust the 100 num
+// const generateDetailJSON = function (currentNum, cycle, maxNum) {
+//   const pointsToList = randomBulletPoints();
+//   const randomNum = Math.floor(Math.random() * Math.floor(200));
+
+//   // data constants
+//   const itemId = (cycle * maxNum) + currentNum;
+//   const point1 = pointsToList[0];
+//   const point2 = pointsToList[1];
+//   const point3 = pointsToList[2];
+//   const point4 = pointsToList[3];
+//   const point5 = pointsToList[4];
+//   const blurb = fakerBlurb.para[randomNum];
+//   const sizing = faker.random.word();
+//   const material = fakerBlurb.commerce[Math.floor(randomNum/2)];
+//   const fit = fakerBlurb.commerce[Math.floor(randomNum/3)];
+//   const length = fakerBlurb.words1[Math.floor(randomNum/2)];
+//   const features = fakerBlurb.commerce[randomNum];
+//   const neckline = fakerBlurb.commerce[Math.floor(randomNum/2)];
+//   const itemStyle = fakerBlurb.commerce[Math.floor(randomNum/3)];
+//   const garmentCuffCutType = fakerBlurb.words1[randomNum];
+//   const garmentSleeveStyle = fakerBlurb.words2[randomNum];
+//   const careAndCleaning = fakerBlurb.words3[Math.floor(randomNum/3)];
+//   const TCIN = faker.random.number();
+//   const UPC = faker.random.number();
+//   const DPCI = faker.random.number();
+//   const origin = fakerBlurb.words3[randomNum];
+//   const recycledPolyester = faker.random.boolean();
+//   const fastShipping = faker.random.boolean();
+//   const estimatedShipDimensions = fakerBlurb.sentence[randomNum];
+//   const estimatedShipWeight = fakerBlurb.words1[Math.floor(randomNum/3)];
+//   const type = 'Men - Shirts';
+
+//   return `${itemId},${point1},${point2},${point3},${point4},${point5},${blurb},${sizing},${material},${fit},${length},${features},${neckline},${itemStyle},${garmentCuffCutType},${garmentSleeveStyle},${careAndCleaning},${TCIN},${UPC},${DPCI},${origin},${recycledPolyester},${fastShipping},${estimatedShipDimensions},${estimatedShipWeight},${type}`;
+// };
+
+// const generateAllDetail = function(path, cycle, maxNum) {
+//   return new Promise((resolve, reject) => {
+//     const output = fs.createWriteStream(path, {encoding: 'utf8'});
+//     output.write('itemId,point1,point2,point3,point4,point5,blurb,sizing,material,fit,length,features,neckline,itemStyle,garmentCuffCutType,garmentSleeveStyle,careAndCleaning,TCIN,UPC,DPCI,origin,recycledPolyester,fastShipping,estimatedShipDimensions,estimatedShipWeight,type');
+
+//     (async() => {
+//       for (var i = 0; i < maxNum; i++) {
+//         const obj = generateDetailJSON(i, cycle, maxNum);
+
+//         if(!output.write(obj)) {
+//           await new Promise(resolve => output.once('drain', resolve));
+//         }
+//         if (i !== maxNum) {
+//           output.write('\n');
+//         }
+//       }
+//       output.end();
+//     })();
+//     output.on('finish', () => resolve('detal generated'));
+//   })
+// }
+
+
+// for (var i = 0; i < 100; i++) {
+//   generateAllDetail(`./db/neo4j/neo4Data/detailNeoCSV${i}.csv`, i, 100000);
+// }
