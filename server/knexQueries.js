@@ -61,9 +61,8 @@ exports.addQuestion = ((req, res) => {
       // console.log(data);
       console.log(JSON.parse(JSON.stringify(data)).length);
       knex('questions')
-        .insert(post, ['itemId'])
-        .then((data) => {
-          console.log(data);
+        .insert(post)
+        .then(() => {
           res.sendStatus(200);
           knex('questions')
             .where({itemId: req.body.itemId})
@@ -74,24 +73,24 @@ exports.addQuestion = ((req, res) => {
     })
 });
 
-// exports.updateDetail((req, res) => {
-//   const updateObj = {};
-//   const key = req.body.update.key;
-//   let update = req.body.update.value;
+exports.updateDetail = ((req, res) => {
+  const updateObj = {};
+  const key = req.body.update.key;
+  let update = req.body.update.value;
 
-//   updateObj[key] = update;
-//   console.log(updateObj);
-//   const id = req.body.itemId;
-//   knex('detail')
-//     .where({ id })
-//     .update({ updateObj })
-//     .where({ id })
-//     .then((data) => {
-//       console.log(data);
-//       res.sendStatus(200);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.sendStatus(500);
-//     });
-// })
+  updateObj[key] = update;
+  console.log(updateObj);
+  const id = req.body.itemId;
+  // knex('detail')
+  //   .where({ id })
+  //   .update({ updateObj })
+  //   .where({ id })
+  //   .then((data) => {
+  //     console.log(data);
+  //     res.sendStatus(200);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.sendStatus(500);
+  //   });
+})

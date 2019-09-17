@@ -12,7 +12,6 @@ const startTime = new Date();
 session
   .run("LOAD CSV WITH HEADERS FROM \"file:///Users/TiffanyLee/Desktop/HR/SDC/item-details/db/neo4j/neo4Data/sizingNeoCSV.csv\" AS LINE CREATE(n:sizing { type: LINE.type, size: LINE.size, neck: LINE.neck, chest: LINE.chest, sleeve: LINE.sleeve})")
   .then(() => {
-    console.log();
     console.log('created sizing');
     recursiveSeedQuestions(0, 0, maxQuestionCycle);
   })

@@ -37,7 +37,7 @@ app.post('/api/post', (req, res) => {
 });
 
 app.put('/api/update', (req, res) => {
-  
+  db.updateDetail(req, res);
 });
 
 app.delete('/api/delete/:itemId', (req, res) => {
