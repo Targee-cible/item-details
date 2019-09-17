@@ -2,7 +2,7 @@ const faker = require('faker');
 const fs = require('fs');
 const fakerBlurb = require('../couchDB/fakerBlurbs.js');
 
-// TO CREATE JSON FOR SIZING
+// // TO CREATE JSON FOR SIZING
 
 
 // const sizingCSV = `type,size,neck,chest,sleeve\nMen - Shirts, XS, 13-13.5, 30-32, 31.5-32 \nMen - Shirts, S, 14-14.5, 34-36, 32.5-33\nMen - Shirts, M, 15-15.5, 38-40, 33.5-34\nMen - Shirts, L, 16-16.5, 42-44, 34.5-35\nMen - Shirts, XL, 17-17.5, 46-48, 35.5-36\nMen - Shirts, XXL, 18-18.5, 50-52, 36.5-37\nMen - Shirts, XXXL, 19-19.5, 54-56, 37.5-38`;
@@ -26,8 +26,8 @@ const fakerBlurb = require('../couchDB/fakerBlurbs.js');
 // // generate 200 (will have to adjust this num later) random questions for random itemIds
 // const generateQuestionString = function (amtPerBatch) {
 //   const getAnswers = checkIfQuestionHasAnswer();
-  
-//   // data consts 
+
+//   // data consts
 //   const itemId = Math.floor(Math.random() * Math.floor(101));
 //   const question = fakerBlurb.sentence[Math.floor(Math.random() * Math.floor(201))];
 //   const asker = faker.name.firstName();
@@ -38,15 +38,15 @@ const fakerBlurb = require('../couchDB/fakerBlurbs.js');
 //   const helpfulCount = getAnswers[3];
 //   const unhelpfulCount = getAnswers[4];
 //   const teamMember = getAnswers[5];
-  
-//   return `${itemId}, ${question}, ${asker}, ${dateAsked}, ${answer}, ${nameOfResponder}, ${dateAnswered}, ${helpfulCount}, ${unhelpfulCount}, ${teamMember}`;
+
+//   return `${itemId},${question},${asker},${dateAsked},${answer},${nameOfResponder},${dateAnswered},${helpfulCount},${unhelpfulCount},${teamMember}`;
 
 // };
 
 // const generateAllQuestions = function(path, length) {
 //   return new Promise((resolve, reject) => {
 //     const output = fs.createWriteStream(path, {encoding: 'utf8'});
-//     output.write('itemId, question, asker, dateAsked, answer, nameOfResponder, dateAnswered, helpfulCount, unhelpfulCount, teamMember');
+//     output.write('itemId,question,asker,dateAsked,answer,nameOfResponder,dateAnswered,helpfulCount,unhelpfulCount,teamMember');
 
 //     (async() => {
 //       for (var i = 0; i < length; i++) {
@@ -85,16 +85,13 @@ const randomBulletPoints = function () {
   return pointsToList;
 };
 
-
-
-  // loop to add into item detail table, will have to adjust the 100 num
-const generateDetailJSON = function (currentNum, cycle) {
+// loop to add into item detail table, will have to adjust the 100 num
+const generateDetailJSON = function (currentNum, cycle, maxNum) {
   const pointsToList = randomBulletPoints();
   const randomNum = Math.floor(Math.random() * Math.floor(200));
-  
 
-  // data constants 
-  const itemId = (cycle * 1000000) + currentNum;
+  // data constants
+  const itemId = (cycle * maxNum) + currentNum;
   const point1 = pointsToList[0];
   const point2 = pointsToList[1];
   const point3 = pointsToList[2];
@@ -119,26 +116,24 @@ const generateDetailJSON = function (currentNum, cycle) {
   const fastShipping = faker.random.boolean();
   const estimatedShipDimensions = fakerBlurb.sentence[randomNum];
   const estimatedShipWeight = fakerBlurb.words1[Math.floor(randomNum/3)];
-  const type = 'Men - Shirts'
- 
+  const type = 'Men - Shirts';
+
   return `${itemId},${point1},${point2},${point3},${point4},${point5},${blurb},${sizing},${material},${fit},${length},${features},${neckline},${itemStyle},${garmentCuffCutType},${garmentSleeveStyle},${careAndCleaning},${TCIN},${UPC},${DPCI},${origin},${recycledPolyester},${fastShipping},${estimatedShipDimensions},${estimatedShipWeight},${type}`;
 };
 
-
-
-const generateAllDetail = function(path, cycle) {
+const generateAllDetail = function(path, cycle, maxNum) {
   return new Promise((resolve, reject) => {
     const output = fs.createWriteStream(path, {encoding: 'utf8'});
-    output.write('itemId, point1, point2, point3, point4, point5, blurb, sizing, material, fit, length, features, neckline, itemStyle, garmentCuffCutType,garmentSleeveStyle,careAndCleaning,TCIN,UPC,DPCI,origin,recycledPolyester,fastShipping,estimatedShipDimensions,estimatedShipWeight,type');
+    output.write('itemId,point1,point2,point3,point4,point5,blurb,sizing,material,fit,length,features,neckline,itemStyle,garmentCuffCutType,garmentSleeveStyle,careAndCleaning,TCIN,UPC,DPCI,origin,recycledPolyester,fastShipping,estimatedShipDimensions,estimatedShipWeight,type');
 
     (async() => {
-      for (var i = 0; i < 1000000; i++) {
-        const obj = generateDetailJSON(i, cycle, 1000000);
+      for (var i = 0; i < maxNum; i++) {
+        const obj = generateDetailJSON(i, cycle, maxNum);
 
         if(!output.write(obj)) {
           await new Promise(resolve => output.once('drain', resolve));
         }
-        if (i !== 1000000) {
+        if (i !== maxNum) {
           output.write('\n');
         }
       }
@@ -149,6 +144,6 @@ const generateAllDetail = function(path, cycle) {
 }
 
 
-for (var i = 0; i < 10; i++) {
-  generateAllDetail(`./db/neo4j/neo4Data/detailNeoCSV${i}.csv`, i);
+for (var i = 0; i < 100; i++) {
+  generateAllDetail(`./db/neo4j/neo4Data/detailNeoCSV${i}.csv`, i, 100000);
 }
