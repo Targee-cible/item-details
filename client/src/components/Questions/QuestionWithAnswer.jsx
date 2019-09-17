@@ -14,13 +14,30 @@ function QuestionWithAnswer({ questionAsked }) {
     teamText = '';
   }
 
+  // return (
+  //   <div className="questionWithAnswer">
+  //     <p><strong>Q: {question}</strong></p>
+  //     <p className='askerAndDateAsked'>{asker}—{relativeDateAsked}</p>
+  //     <div className='answerDiv'>
+  //     <p><span className='a'><strong>A: </strong></span>{answer}</p>
+  //     <p className='answerDetails'>{nameOfResponder}-{relativeDateAnswered}
+  //       <a><u>Helpful({helpfulCount}) </u></a>
+  //       <a><u>Unhelpful({unhelpfulCount}) </u></a>
+  //       <a><u>Report</u></a>
+  //     </p>
+  //     <div className='teamMember'>{teamText}</div>
+  //     <button className='answerIt'>Answer it</button>
+  //     </div>
+  //   </div>
+  // );
+
   return (
     <div className="questionWithAnswer">
       <p><strong>Q: {question}</strong></p>
-      <p className='askerAndDateAsked'>{asker}—{relativeDateAsked}</p>
+      <p className='askerAndDateAsked'>{dateAsked}</p>
       <div className='answerDiv'>
       <p><span className='a'><strong>A: </strong></span>{answer}</p>
-      <p className='answerDetails'>{nameOfResponder}-{relativeDateAnswered}
+      <p className='answerDetails'>{dateAnswered}
         <a><u>Helpful({helpfulCount}) </u></a>
         <a><u>Unhelpful({unhelpfulCount}) </u></a>
         <a><u>Report</u></a>

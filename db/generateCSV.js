@@ -30,7 +30,7 @@ fs.writeFileSync('./db/CSVdata/sizingData.csv', sizingCSV);
 
 // TO CREATE JSON FOR QUESTIONS
 // generate questions data
-const getRandomItemId = () => faker.random.number({ min: 1, max: 100 });
+const getRandomItemId = () => faker.random.number({ min: 1, max: 10000000 });
 const checkIfQuestionHasAnswer = function () {
   const hasAnswer = faker.random.number({ min: 0, max: 1 });
   const answerArray = [];
@@ -76,7 +76,7 @@ const convertQuesToCSV = function( JSONobj ) {
 
 // loop to create multiple files
 for (var i = 0; i <= 9; i++) {
-  const quesCSV = convertQuesToCSV(generateQuestionJSON(10000));
+  const quesCSV = convertQuesToCSV(generateQuestionJSON(100000));
   fs.writeFileSync(`./db/CSVdata/questionData${i}.csv`, quesCSV);
 }
 

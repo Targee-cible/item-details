@@ -4,7 +4,7 @@ import QuestionWithoutAnswer from './QuestionWithoutAnswer';
 
 function Questions({ details }) {
   const questions = details.map((question) => {
-    if (question.answer) {
+    if (question.answer !== 'null') {
       return (
           <QuestionWithAnswer questionAsked={question} />
       );
