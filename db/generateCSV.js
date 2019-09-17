@@ -49,6 +49,7 @@ const generateQuestionJSON = function (amtPerBatch) {
   for (let index = 0; index < amtPerBatch; index += 1) { // adjust the index based on how much data is needed
     const getAnswers = checkIfQuestionHasAnswer();
     const qObj = {
+      id: 'null',
       itemId: getRandomItemId(),
       question: faker.lorem.sentence(),
       asker: faker.name.firstName(),
@@ -75,7 +76,7 @@ const convertQuesToCSV = function( JSONobj ) {
 } 
 
 // loop to create multiple files
-for (var i = 0; i <= 9; i++) {
+for (var i = 0; i <= 20; i++) {
   const quesCSV = convertQuesToCSV(generateQuestionJSON(100000));
   fs.writeFileSync(`./db/CSVdata/questionData${i}.csv`, quesCSV);
 }
@@ -83,72 +84,72 @@ for (var i = 0; i <= 9; i++) {
 
 
 
-// TO CREATE JSON FOR ITEM DETAIL
-const randomBulletPoints = function () {
-  const options = faker.random.number({ min: 0, max: 4 });
-  const pointsToList = ['null', 'null', 'null', 'null', 'null'];
-  if (options === 0) {	
-    return pointsToList;	
-  }	
-  let i = 0;	
-  while (i <= options) {	
-    pointsToList[i] = faker.lorem.sentence();	
-    i += 1;	
-  }	
-  return pointsToList;	
-};
-  // loop to add into item detail table, will have to adjust the 100 num
-const generateDetailJSON = function (amtPerBatch) {
-  let allDetail = [];
-  for (let j = 1; j <= amtPerBatch; j += 1) { // adjust for amount of data wanted
-    const pointsToList = randomBulletPoints();
-    const itemObj = {
-      id: 'null',
-      point1: pointsToList[0],
-      point2: pointsToList[1],
-      point3: pointsToList[2],
-      point4: pointsToList[3],
-      point5: pointsToList[4],
-      blurb: faker.lorem.paragraph(),
-      sizing: faker.random.word(),
-      material: faker.commerce.productMaterial(),
-      fit: faker.commerce.productAdjective(),
-      length: faker.random.words(),
-      features: faker.commerce.productAdjective(),
-      neckline: faker.commerce.productAdjective(),
-      itemStyle: faker.commerce.productAdjective(),
-      garmentCuffCutType: faker.random.words(),
-      garmentSleeveStyle: faker.random.words(),
-      careAndCleaning: faker.random.words(),
-      TCIN: faker.random.number(),
-      UPC: faker.random.number(),
-      DPCI: faker.random.number(),
-      origin: faker.random.word(),
-      recycledPolyester: faker.random.boolean(),
-      fastShipping: faker.random.boolean(),
-      estimatedShipDimensions: faker.lorem.sentence(),
-      estimatedShipWeight: faker.random.words(),
-      type: 'Men - Shirts',
-    };
+// // TO CREATE JSON FOR ITEM DETAIL
+// const randomBulletPoints = function () {
+//   const options = faker.random.number({ min: 0, max: 4 });
+//   const pointsToList = ['null', 'null', 'null', 'null', 'null'];
+//   if (options === 0) {	
+//     return pointsToList;	
+//   }	
+//   let i = 0;	
+//   while (i <= options) {	
+//     pointsToList[i] = faker.lorem.sentence();	
+//     i += 1;	
+//   }	
+//   return pointsToList;	
+// };
+//   // loop to add into item detail table, will have to adjust the 100 num
+// const generateDetailJSON = function (amtPerBatch) {
+//   let allDetail = [];
+//   for (let j = 1; j <= amtPerBatch; j += 1) { // adjust for amount of data wanted
+//     const pointsToList = randomBulletPoints();
+//     const itemObj = {
+//       id: 'null',
+//       point1: pointsToList[0],
+//       point2: pointsToList[1],
+//       point3: pointsToList[2],
+//       point4: pointsToList[3],
+//       point5: pointsToList[4],
+//       blurb: faker.lorem.paragraph(),
+//       sizing: faker.random.word(),
+//       material: faker.commerce.productMaterial(),
+//       fit: faker.commerce.productAdjective(),
+//       length: faker.random.words(),
+//       features: faker.commerce.productAdjective(),
+//       neckline: faker.commerce.productAdjective(),
+//       itemStyle: faker.commerce.productAdjective(),
+//       garmentCuffCutType: faker.random.words(),
+//       garmentSleeveStyle: faker.random.words(),
+//       careAndCleaning: faker.random.words(),
+//       TCIN: faker.random.number(),
+//       UPC: faker.random.number(),
+//       DPCI: faker.random.number(),
+//       origin: faker.random.word(),
+//       recycledPolyester: faker.random.boolean(),
+//       fastShipping: faker.random.boolean(),
+//       estimatedShipDimensions: faker.lorem.sentence(),
+//       estimatedShipWeight: faker.random.words(),
+//       type: 'Men - Shirts',
+//     };
 
-    allDetail.push(itemObj);
-  }
-  return allDetail;
-};
+//     allDetail.push(itemObj);
+//   }
+//   return allDetail;
+// };
   
-const convertDetailToCSV = function( JSONobj ) {
-  let str = []; 
-  JSONobj.forEach((rowData) => {
-    const infoArr = Object.keys(rowData).map((key) => rowData[key]);
-    str.push(infoArr.join(', '));
-  });
-  return str.join('\n');
-} 
+// const convertDetailToCSV = function( JSONobj ) {
+//   let str = []; 
+//   JSONobj.forEach((rowData) => {
+//     const infoArr = Object.keys(rowData).map((key) => rowData[key]);
+//     str.push(infoArr.join(', '));
+//   });
+//   return str.join('\n');
+// } 
 
-for (var i = 0; i <= 9; i++) {
-  const detailCSV = convertDetailToCSV(generateDetailJSON(100000));
-  fs.writeFileSync(`./db/CSVdata/detailData${i}.csv`, detailCSV);
-}
+// for (var i = 0; i <= 9; i++) {
+//   const detailCSV = convertDetailToCSV(generateDetailJSON(100000));
+//   fs.writeFileSync(`./db/CSVdata/detailData${i}.csv`, detailCSV);
+// }
 
 module.exports = {
   generateSizingJSON, 

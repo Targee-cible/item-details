@@ -40,14 +40,8 @@ app.put('/api/update', (req, res) => {
   db.updateDetail(req, res);
 });
 
-app.delete('/api/delete/:itemId', (req, res) => {
-  // const id = req.params.itemId;
-  // db.ItemDetails.deleteOne({ itemId: id })
-  //   .then(res.sendStatus(200))
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.sendStatus(500);
-  //   });
+app.delete('/api/delete', (req, res) => {
+  db.deleteQuestion(req, res);
 });
 
 app.listen(port, () => {
