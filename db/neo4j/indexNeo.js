@@ -26,7 +26,7 @@ const seedQuestions = (fileCount) => {
 }
 
 const recursiveSeedQuestions = (fileNum, currentTime, end) => {
-  // if (fileNum > 20) {
+  // if (fileNum >= 20) {
   //   fileNum = fileNum.toString().split('').pop();
   // }
   seedQuestions(fileNum)
