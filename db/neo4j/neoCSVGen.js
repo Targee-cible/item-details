@@ -47,7 +47,7 @@ const generateQuestionString = function (currentNum, cycle, maxNum) {
 const generateAllQuestions = function(path, cycle, maxNum) {
   return new Promise((resolve, reject) => {
     const output = fs.createWriteStream(path, {encoding: 'utf8'});
-    output.write('itemId,question,asker,dateAsked,answer,nameOfResponder,dateAnswered,helpfulCount,unhelpfulCount,teamMember');
+    output.write('id,itemId,question,asker,dateAsked,answer,nameOfResponder,dateAnswered,helpfulCount,unhelpfulCount,teamMember\n');
 
     (async() => {
       for (var i = 0; i <= maxNum; i++) {
@@ -125,7 +125,7 @@ for (var i = 0; i < 20; i++) {
 // const generateAllDetail = function(path, cycle, maxNum) {
 //   return new Promise((resolve, reject) => {
 //     const output = fs.createWriteStream(path, {encoding: 'utf8'});
-//     output.write('itemId,point1,point2,point3,point4,point5,blurb,sizing,material,fit,length,features,neckline,itemStyle,garmentCuffCutType,garmentSleeveStyle,careAndCleaning,TCIN,UPC,DPCI,origin,recycledPolyester,fastShipping,estimatedShipDimensions,estimatedShipWeight,type');
+//     output.write('itemId,point1,point2,point3,point4,point5,blurb,sizing,material,fit,length,features,neckline,itemStyle,garmentCuffCutType,garmentSleeveStyle,careAndCleaning,TCIN,UPC,DPCI,origin,recycledPolyester,fastShipping,estimatedShipDimensions,estimatedShipWeight,type\n');
 
 //     (async() => {
 //       for (var i = 0; i <= maxNum; i++) {

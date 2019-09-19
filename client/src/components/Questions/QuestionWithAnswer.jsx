@@ -30,7 +30,6 @@ function QuestionWithAnswer({ questionAsked }) {
   //     </div>
   //   </div>
   // );
-
   return (
     <div className="questionWithAnswer">
       <p><strong>Q: {question}</strong></p>
@@ -39,7 +38,7 @@ function QuestionWithAnswer({ questionAsked }) {
       <p><span className='a'><strong>A: </strong></span>{answer}</p>
       <p className='answerDetails'>{dateAnswered}
         <a><u>Helpful({helpfulCount}) </u></a>
-        <a><u>Unhelpful({unhelpfulCount}) </u></a>
+        <a><u>Unhelpful({unhelpfulCount || 0}) </u></a>
         <a><u>Report</u></a>
       </p>
       <div className='teamMember'>{teamText}</div>

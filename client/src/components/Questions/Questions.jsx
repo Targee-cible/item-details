@@ -4,14 +4,14 @@ import QuestionWithoutAnswer from './QuestionWithoutAnswer';
 
 function Questions({ details }) {
   const questions = details.map((question) => {
-    if (question.answer !== 'null') {
+    if (question.answer === ' null' || question.answer === null) {
       return (
-          <QuestionWithAnswer questionAsked={question} />
+           <QuestionWithoutAnswer questionAsked={question} />
       );
     }
     return (
       <div>
-        <QuestionWithoutAnswer questionAsked={question} />
+       <QuestionWithAnswer questionAsked={question} />
       </div>
     );
   });
