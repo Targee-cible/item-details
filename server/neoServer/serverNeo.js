@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3001;
-const db = require('./knexQueries.js');
+const db = require('./neoQueries.js');
 
 let allowCrossDomain = function(req, res, next) {
  res.header('Access-Control-Allow-Origin', "*");

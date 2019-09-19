@@ -30,9 +30,9 @@ const seedQuestions = (fileCount) => {
   if (fileCount >= 20) {
     fileCount = fileCount.toString().split('').pop();
   }
-  const path = `./db/neo4j/neo4Data/quesNeoCSV${fileCount}.csv`
+  const path = `./db/CSVdata/questionData${fileCount}.csv`
   const questionQuery = `LOAD DATA LOCAL INFILE ?
-  INTO TABLE questions FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS` ;
+  INTO TABLE questions FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'` ;
   return new Promise((resolve, reject) => {
     db.query(questionQuery, path, (err, res) => {
       if (err) reject(err);

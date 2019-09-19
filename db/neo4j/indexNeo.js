@@ -21,12 +21,12 @@ session
 
 
 const seedQuestions = (fileCount) => {
-  const path = `USING PERIODIC COMMIT 500 LOAD CSV WITH HEADERS FROM \"file:///Users/TiffanyLee/Desktop/HR/SDC/item-details/db/neo4j/neo4Data/quesNeoCSV${fileCount}.csv\" AS line CREATE(n:questions {itemId: line.itemId, question:line.question, dateAsked: line.dateAsked, answer: line.answer, nameOfResponder: line.nameOfResponder, dateAnswered: line.dataAnswered, helpfulCount: line.helpfulCount, unhelpfulCount: line.unhelpfulCount, teamMember: line.teamMember})`;
+  const path = `USING PERIODIC COMMIT 500 LOAD CSV WITH HEADERS FROM \"file:///Users/TiffanyLee/Desktop/HR/SDC/item-details/db/neo4j/neo4Data/quesNeoCSV${fileCount}.csv\" AS line CREATE(n:questions {id: line.id, itemId: line.itemId, question:line.question, dateAsked: line.dateAsked, answer: line.answer, nameOfResponder: line.nameOfResponder, dateAnswered: line.dataAnswered, helpfulCount: line.helpfulCount, unhelpfulCount: line.unhelpfulCount, teamMember: line.teamMember})`;
   return session.run(path);
 }
 
 const recursiveSeedQuestions = (fileNum, currentTime, end) => {
-  // if (fileNum > 20) {
+  // if (fileNum >= 20) {
   //   fileNum = fileNum.toString().split('').pop();
   // }
   seedQuestions(fileNum)

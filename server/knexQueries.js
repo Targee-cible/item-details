@@ -40,7 +40,6 @@ exports.getAllDetail = ((req, res) => {
 });
 
 exports.addQuestion = ((req, res) => {
-  // console.log(req.body);
   const post = {
     itemId: req.body.itemId,
     question: req.body.question,
@@ -53,7 +52,6 @@ exports.addQuestion = ((req, res) => {
     unhelpfulCount: null,
     targetTeamMember: null,
   };
-  console.log(post);
 
   knex('questions')
     .where({itemId: req.body.itemId})
@@ -74,23 +72,50 @@ exports.addQuestion = ((req, res) => {
 });
 
 exports.updateDetail = ((req, res) => {
+  console.log(req.body);
   const updateObj = {};
   const key = req.body.update.key;
   let update = req.body.update.value;
 
   updateObj[key] = update;
-  console.log(updateObj);
   const id = req.body.itemId;
-  // knex('detail')
-  //   .where({ id })
-  //   .update({ updateObj })
-  //   .where({ id })
-  //   .then((data) => {
-  //     console.log(data);
-  //     res.sendStatus(200);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.sendStatus(500);
-  //   });
-})
+  knex('detail')
+    .where({ id })
+    .update(updateObj)
+    .then(()=>{
+      knex('detail')
+        .where(knex.raw('id=?', [id]))
+        .then((data) => {
+          console.log(data);
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.sendStatus(500);
+        });
+    })
+});
+
+exports.deleteQuestion = ((req, res) => {
+  const id = req.body.qId;
+  knex('questions')
+    .where(knex.raw('id=?', [id]))
+    .then((data) => {
+      const itemId = data[0].itemId;
+      knex('questions')
+        .where(knex.raw('id=?', [id]))
+        .del()
+        .then(()=> {
+          knex('questions')
+            .where({id})
+            .then((data) => {
+              console.log(data.length, 'should be 0');
+              res.sendStatus(200);
+            })
+        })
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+});
