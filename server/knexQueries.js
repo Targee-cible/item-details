@@ -14,7 +14,10 @@ exports.getAllSizing = ((req, res) => {
     .then((data) => {
       // console.log(JSON.parse(JSON.stringify(data)));
       res.send(JSON.parse(JSON.stringify(data)));
-    });
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    })
 });
 
 exports.getAllQuestions = ((req, res) => {
@@ -26,6 +29,9 @@ exports.getAllQuestions = ((req, res) => {
     .then((data) => {
       // console.log(JSON.parse(JSON.stringify(data)));
       res.send(JSON.parse(JSON.stringify(data)));
+    })
+    .catch(() => {
+      res.sendStatus(500);
     });
 });
 
@@ -36,6 +42,9 @@ exports.getAllDetail = ((req, res) => {
     .then((data) => {
       // console.log(JSON.parse(JSON.stringify(data)));
       res.send(JSON.parse(JSON.stringify(data)));
+    })
+    .catch(() => {
+      res.sendStatus(500);
     });
 });
 
@@ -54,21 +63,25 @@ exports.addQuestion = ((req, res) => {
   };
 
   knex('questions')
-    .where({itemId: req.body.itemId})
-    .then((data) => {
-      // console.log(data);
-      console.log(JSON.parse(JSON.stringify(data)).length);
+    // .where({itemId: req.body.itemId})
+    // .then((data) => {
+    //   // console.log(data);
+    //   console.log(JSON.parse(JSON.stringify(data)).length);
       knex('questions')
         .insert(post)
         .then(() => {
           res.sendStatus(200);
-          knex('questions')
-            .where({itemId: req.body.itemId})
-            .then((data) => {
-              console.log(data.length);
-            })
+          // console.log('posted');
+          // knex('questions')
+          //   .where({itemId: req.body.itemId})
+          //   .then((data) => {
+          //     console.log(data.length);
+          //   })
         })
-    })
+        .catch(() => {
+          res.sendStatus(500);
+        });
+    // })
 });
 
 exports.updateDetail = ((req, res) => {
