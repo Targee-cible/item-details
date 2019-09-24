@@ -50,9 +50,10 @@ const recursiveSeedQuestions = (fileNum, currentTime, end) => {
         recursiveSeedQuestions(fileNum + 1, currentTime + 1, end);
       }
       if (currentTime === end) {
+        db.end();
         console.log('time to complete seed question', new Date() - startTime);
         console.log('done seeding questions');
-        recursiveSeedDetail(0, startCountDetail, maxCountDetail);
+        // recursiveSeedDetail(0, startCountDetail, maxCountDetail);
       }
     })
 };
@@ -93,8 +94,9 @@ const recursiveSeedDetail = (fileNum, currentTime, end) => {
 
 
 // chain the functions
-seedSize()
-  .then((rowsAdded) => {
-    console.log('size seeding completed data. added rows:' + rowsAdded);
-    recursiveSeedQuestions(0, 0, maxCountQuestions);
-  })
+// seedSize()
+//   .then((rowsAdded) => {
+//     console.log('size seeding completed data. added rows:' + rowsAdded);
+//     recursiveSeedQuestions(0, 0, maxCountQuestions);
+//   })
+recursiveSeedDetail(0, startCountDetail, maxCountDetail);
