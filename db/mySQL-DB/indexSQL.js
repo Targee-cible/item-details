@@ -1,16 +1,11 @@
 const mysql = require('mysql');
 
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: '',
-//   database: 'targetItem',
-// });
 const connection = mysql.createConnection({
-  host: '54.183.7.242',
-  port: '3306',
+  host: '13.57.223.213', // localhost
+  port: '3306', // can take out for local 
   user: 'root',
-  password: 'root'
+  password: 'root',
+  database: 'targetItem'
 });
 
 connection.connect((err) => {
