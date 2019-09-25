@@ -1,23 +1,39 @@
+const LRU = require('lru-cache');
+const options = {
+  max: 500,
+  max_age: 1000 * 60 * 60,
+};
+const cache = new LRU(options);
+
 const knex = require('knex')({
   client: 'mysql',
   connection: {
-    host: '127.0.0.1',
+    host: '13.57.223.213',
+    port: '3306',
     user: 'root',
-    password: '',
+    password: 'root',
     database: 'targetItem',
   },
 });
 
 exports.getAllSizing = ((req, res) => {
-  knex('sizing')
+  const cacheData = cache.get('sizing');
+  if (!cacheData) {
+    knex('sizing')
     .where({})
-    .then((data) => {
+    .then((response) => {
+      const data = JSON.parse(JSON.stringify(response));
+      cache.set('sizing', data);
       // console.log(JSON.parse(JSON.stringify(data)));
-      res.send(JSON.parse(JSON.stringify(data)));
+      res.send(data);
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       res.sendStatus(500);
     })
+  } else {
+    res.send(cacheData);
+  }
 });
 
 exports.getAllQuestions = ((req, res) => {
@@ -30,22 +46,33 @@ exports.getAllQuestions = ((req, res) => {
       // console.log(JSON.parse(JSON.stringify(data)));
       res.send(JSON.parse(JSON.stringify(data)));
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       res.sendStatus(500);
     });
 });
 
 exports.getAllDetail = ((req, res) => {
   const id = req.params.itemId;
-  knex('detail')
+  const cache_key = 'detail:' + id;
+  const cacheData = cache.get(cache_key);
+  if (!cacheData) {
+    knex('detail')
     .where({ id })
-    .then((data) => {
-      // console.log(JSON.parse(JSON.stringify(data)));
-      res.send(JSON.parse(JSON.stringify(data)));
+    .then((response) => {
+      const data = JSON.parse(JSON.stringify(response));
+      cache.set('detail:' + id, data);
+      // console.log(JSON.parse(JSON.stringify(response)));
+      res.send(data);
     })
     .catch(() => {
+      console.log(err);
       res.sendStatus(500);
     });
+  } else {
+    res.send(cacheData);
+  }
+  
 });
 
 exports.addQuestion = ((req, res) => {
@@ -63,22 +90,13 @@ exports.addQuestion = ((req, res) => {
   };
 
   knex('questions')
-    // .where({itemId: req.body.itemId})
-    // .then((data) => {
-    //   // console.log(data);
-    //   console.log(JSON.parse(JSON.stringify(data)).length);
       knex('questions')
         .insert(post)
         .then(() => {
           res.sendStatus(200);
-          // console.log('posted');
-          // knex('questions')
-          //   .where({itemId: req.body.itemId})
-          //   .then((data) => {
-          //     console.log(data.length);
-          //   })
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           res.sendStatus(500);
         });
     // })

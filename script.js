@@ -2,17 +2,18 @@ import http from "k6/http";
 import { sleep, check } from "k6";
 
 export let options = {
+  // rps: 200,
   stages: [
-    {duration: '1s', target: 100},
-    {duration: '30s', target: 100}
-  ],
-  rps: 10000000
+    // {duration: '5s', target: 250},
+    {duration: '30s', target: 1500}
+  ]
 };
 
 // GET REQUEST 
 export default function() {
-  const randomId = Math.floor(Math.random()*10000000)
-  let res = http.get(`http://localhost:3001/api/items/${randomId}`);
+  const index = Math.floor(Math.random()*45);
+  const randomId = [9000000, 935485, 34545, 234234, 234123];
+  let res = http.get(`http://localhost:3001/api/items/${randomId[index]}`);
   check(res, {
     "200 status": (r) => r.status == 200,
     "transaction time < 400ms": (r) => r.timings.duration < 400,
