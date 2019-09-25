@@ -29,9 +29,9 @@ class App extends React.Component {
     }
 
     Promise.all([
-      fetch(`http://127.0.0.1:3001/api/items/${id}`),
-      fetch(`http://127.0.0.1:3001/api/questions/${id}`),
-      fetch(`http://127.0.0.1:3001/api/sizing/${id}`),
+      fetch(`/api/items/${id}`),
+      fetch(`/api/questions/${id}`),
+      fetch(`/api/sizing/${id}`),
     ])
       .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
       .then(([res1, res2, res3]) => {
