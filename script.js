@@ -13,7 +13,7 @@ export let options = {
 export default function() {
   const index = Math.floor(Math.random()*45);
   const randomId = [9000000, 935485, 34545, 234234, 234123];
-  let res = http.get(`http://localhost:3001/api/items/${randomId[index]}`);
+  let res = http.get(`http://13.52.185.38/api/items/${randomId[index]}`);
   check(res, {
     "200 status": (r) => r.status == 200,
     "transaction time < 400ms": (r) => r.timings.duration < 400,
