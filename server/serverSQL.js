@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 
 const app = express();
-const port = 3001;
+const port = process.env.NODE_PORT || 3001;
 const db = require('./knexQueries.js');
 
 
@@ -44,6 +44,10 @@ app.put('/api/update', (req, res) => {
 
 app.delete('/api/delete', (req, res) => {
   db.deleteQuestion(req, res);
+});
+
+app.get('/loaderio-e449bf39685cc1884a473ff01e93df08/', (req, res) => {
+  res.sendFile('/home/ubuntu/item-details/loaderio.txt');
 });
 
 app.listen(port, () => {
